@@ -131,6 +131,58 @@ namespace Elysium::Core::Template::Threading
 
 			return Result;
 		}
+
+		inline bool CompareExchangeStrong(T& Expected, const T Desired, const Elysium::Core::Template::Memory::MemoryOrder Success,
+			const Elysium::Core::Template::Memory::MemoryOrder Failure) noexcept
+		{
+			// Taken from std::atomic<...>compare_exchange_strong(...):
+			// Finds upper bound of a compare/exchange memory order pair, according to the following partial order:
+			//     seq_cst
+			//        |
+			//     acq_rel
+			//     /     \
+			// acquire  release
+			//    |       |
+			// consume    |
+			//     \     /
+			//     relaxed
+			static constexpr Elysium::Core::Template::Memory::MemoryOrder _Combined_memory_orders[6][6] =
+			{
+				{ 
+					Elysium::Core::Template::Memory::MemoryOrder::Relaxed, Elysium::Core::Template::Memory::MemoryOrder::Consume, Elysium::Core::Template::Memory::MemoryOrder::Acquire,
+					Elysium::Core::Template::Memory::MemoryOrder::Release, Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease,
+					Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent
+				},
+				{ 
+					Elysium::Core::Template::Memory::MemoryOrder::Consume, Elysium::Core::Template::Memory::MemoryOrder::Consume, Elysium::Core::Template::Memory::MemoryOrder::Acquire,
+					Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, 
+					Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent
+				},
+				{ 
+					Elysium::Core::Template::Memory::MemoryOrder::Acquire, Elysium::Core::Template::Memory::MemoryOrder::Acquire, Elysium::Core::Template::Memory::MemoryOrder::Acquire,
+					Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, 
+					Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent
+				},
+				{ 
+					Elysium::Core::Template::Memory::MemoryOrder::Release, Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease,
+					Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Release,
+					Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent
+				},
+				{ 
+					Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease,
+					Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease,
+					Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent
+				},
+				{ 
+					Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent, Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent, 
+					Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent, Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent, 
+					Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent, Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent
+				} 
+			};
+
+			return CompareExchangeStrong(Expected, Desired,
+				_Combined_memory_orders[static_cast<Elysium::Core::Template::System::int32_t>(Success)][static_cast<Elysium::Core::Template::System::int32_t>(Failure)]);
+		}
 	private:
 		inline void ValidateMemoryOrderLoad(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
 		{

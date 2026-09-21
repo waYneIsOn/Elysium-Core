@@ -139,6 +139,12 @@ namespace Elysium::Core::Template::Threading
 		{
 			return const_cast<Atomic<T>*>(this)->Base::CompareExchangeStrong(Expected, Desired, Order);
 		}
+
+		inline bool CompareExchangeStrong(T& Expected, const T Desired, const Elysium::Core::Template::Memory::MemoryOrder Success,
+			const Elysium::Core::Template::Memory::MemoryOrder Failure) noexcept
+		{
+			return const_cast<Atomic<T>*>(this)->Base::CompareExchangeStrong(Expected, Desired, Success, Failure);
+		}
 	};
 }
 #endif
