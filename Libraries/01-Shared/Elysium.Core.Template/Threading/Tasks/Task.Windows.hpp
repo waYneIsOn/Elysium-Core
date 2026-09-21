@@ -91,6 +91,11 @@ namespace Elysium::Core::Template::Threading::Tasks
                 return _ManagedExternally;
             }
         public:
+            inline void Resume()
+            {
+                _Handle.resume();
+            }
+        public:
             Task<Result> get_return_object()
             {
                 _Handle = Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(*this);
@@ -237,6 +242,11 @@ namespace Elysium::Core::Template::Threading::Tasks
             inline constexpr const bool GetIsManageExternally() const noexcept
             {
                 return _ManagedExternally;
+            }
+        public:
+            inline void Resume()
+            {
+                _Handle.resume();
             }
         public:
             Task get_return_object()
