@@ -1,5 +1,7 @@
 #include "CppUnitTest.h"
+
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Atomic.hpp"
+
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/DelegateAwaiter.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/GetCurrentPromiseAwaiter.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/Thread.hpp"
@@ -69,7 +71,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
             {
                 Elysium::Core::Template::Container::Function Lambda = [](Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType* Promise) 
                 {
-                    Promise->Resume();
+                    Promise->_Handle.resume();
                     const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
                     if (!SetResult)
                     {

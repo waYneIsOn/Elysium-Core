@@ -70,6 +70,11 @@ namespace Elysium::Core::Template::IO::Device
     class FileDevice;
 }
 
+namespace UnitTests::Core::Template::Threading::Tasks
+{
+    class TaskTests;
+}
+
 namespace Elysium::Core::Template::Threading::Tasks
 {
     template <class Result>
@@ -85,15 +90,12 @@ namespace Elysium::Core::Template::Threading::Tasks
             friend class Task<Result>;
             friend class Elysium::Core::Template::IO::Device::FileDevice;
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>;
+
+            friend class UnitTests::Core::Template::Threading::Tasks::TaskTests;
         public:
             inline constexpr const bool GetIsManageExternally() const noexcept
             {
                 return _ManagedExternally;
-            }
-        public:
-            inline void Resume()
-            {
-                _Handle.resume();
             }
         public:
             Task<Result> get_return_object()
@@ -154,7 +156,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
             DWORD _ErrorCode{};
             Result _Result{};
-        public:
+
             bool _ManagedExternally{};
             Elysium::Core::Template::Threading::ManualResetEvent _CoroutineCompletionEvent{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<> _OuterCoroutineHandle{};    // continuation/who awaits this frame?
@@ -238,15 +240,12 @@ namespace Elysium::Core::Template::Threading::Tasks
             friend class Elysium::Core::Template::IO::Device::FileDevice;
             //friend class Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter<promise_type, void>;
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>;
+
+            friend class UnitTests::Core::Template::Threading::Tasks::TaskTests;
         public:
             inline constexpr const bool GetIsManageExternally() const noexcept
             {
                 return _ManagedExternally;
-            }
-        public:
-            inline void Resume()
-            {
-                _Handle.resume();
             }
         public:
             Task get_return_object()
@@ -301,7 +300,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Threading::Tasks::TaskStatus> _Status{};
             Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
             DWORD _ErrorCode{};
-        public:
+
             bool _ManagedExternally{};
             Elysium::Core::Template::Threading::ManualResetEvent _CoroutineCompletionEvent{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<> _OuterCoroutineHandle{};    // continuation/who awaits this frame?
