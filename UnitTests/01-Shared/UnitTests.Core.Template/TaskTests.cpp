@@ -36,7 +36,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
             Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> TaskF2 = PerformOuterLoopedTaskThroughDelegate(24_ui8, false);
             TaskF2.Wait();
             Assert::AreEqual(24_ui8, TaskF2.GetResult());
-
+            
             Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> TaskT1 = PerformOuterLoopedTaskThroughDelegate(3_ui8, true);
             TaskT1.Wait();
             Assert::AreEqual(3_ui8, TaskT1.GetResult());
@@ -67,6 +67,8 @@ namespace UnitTests::Core::Template::Threading::Tasks
     private:
         inline void Start(Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType& Promise, const bool ManagedExternally)
         {
+            //Elysium::Core::Template::Threading::Thread::Sleep(5000);
+
             if (ManagedExternally)
             {
                 Elysium::Core::Template::Container::Function Lambda = [](Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType* Promise) 
@@ -84,10 +86,6 @@ namespace UnitTests::Core::Template::Threading::Tasks
                 Elysium::Core::Template::Threading::Thread SetSignalThread{};
                 SetSignalThread.Start(Elysium::Core::Template::Functional::Move(Lambda), &InternalPromise);
             }
-
-
-            //Promise._Result = 1;
-            bool sdf = false;
         }
 
         inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformMostInternalTaskThroughDelegate(const bool ManagedExternally)
