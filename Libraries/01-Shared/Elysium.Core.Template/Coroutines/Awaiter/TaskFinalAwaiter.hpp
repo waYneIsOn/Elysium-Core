@@ -42,20 +42,18 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			return false;
 		}
 
-		inline constexpr std::coroutine_handle<> await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<> /*CompletedHandle*/) noexcept
+		inline constexpr std::coroutine_handle<> await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<> CompletedHandle) noexcept
 		{
 			if (_ContinuationHandle)
 			{
-				return _ContinuationHandle;
+				bool sdfsdf = false;
 			}
 
-			// nobody is waiting
-			return std::noop_coroutine();
+			return _ContinuationHandle ? _ContinuationHandle : std::noop_coroutine();
 		}
 
 		inline constexpr void await_resume() const noexcept
-		{
-		}
+		{ }
 	private:
 		Elysium::Core::Template::Coroutines::CoroutineHandle<> _ContinuationHandle;
 	};

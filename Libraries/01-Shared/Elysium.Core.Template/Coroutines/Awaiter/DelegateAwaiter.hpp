@@ -98,7 +98,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			*/
 			
 			// coroutine can resume right away (if managed internally) or needs to remain suspended (if managed externally).
-			return _Promise->GetIsManageExternally();
+			return _Promise->_ManagedExternally;
 		}
 
 		/// <summary>

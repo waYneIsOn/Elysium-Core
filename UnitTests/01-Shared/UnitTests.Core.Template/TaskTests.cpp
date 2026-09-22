@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 
+#include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Atomic.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/DelegateAwaiter.hpp"
@@ -73,12 +74,14 @@ namespace UnitTests::Core::Template::Threading::Tasks
             {
                 Elysium::Core::Template::Container::Function Lambda = [](Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType* Promise) 
                 {
-                    Promise->_Handle.resume();
                     const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
                     if (!SetResult)
                     {
                         bool sdfsdf = false;
                     }
+
+                    Promise->_Handle.resume();
+                    Promise->_Handle.destroy();
                 };
 
                 Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType& InternalPromise = Promise;

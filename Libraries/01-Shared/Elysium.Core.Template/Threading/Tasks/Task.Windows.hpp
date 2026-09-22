@@ -12,8 +12,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_COROUTINECONTINUATIONSTATE
+#include "../../Coroutines/CoroutineContinuationState.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_COROUTINEHANDLE
 #include "../../Coroutines/CoroutineHandle.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_DELEGATEAWAITER
+#include "../../Coroutines/Awaiter/DelegateAwaiter.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_SUSPENDALWAYS
@@ -36,12 +49,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Exceptions/IO/IOException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../../System/OperatingSystem.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "../../Text/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
@@ -56,14 +69,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "TaskStatus.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
-    #ifndef _MINWINBASE_
-    #include <minwinbase.h>
-    #endif
+#ifndef _MINWINBASE_
+#include <minwinbase.h>
+#endif
 
-    #ifndef _MINWINDEF_
-    #include <minwindef.h>
-    #endif
+#ifndef _MINWINDEF_
+#include <minwindef.h>
+#endif
 
 namespace Elysium::Core::Template::IO::Device
 {
@@ -89,14 +101,13 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             friend class Task<Result>;
             friend class Elysium::Core::Template::IO::Device::FileDevice;
+
+            template <class Promise, class ReturnType, class ...Args>
+            friend class Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter;
+
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>;
 
             friend class UnitTests::Core::Template::Threading::Tasks::TaskTests;
-        public:
-            inline constexpr const bool GetIsManageExternally() const noexcept
-            {
-                return _ManagedExternally;
-            }
         public:
             Task<Result> get_return_object()
             {
@@ -118,7 +129,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                     _CoroutineCompletionEvent.Set();
                 }
 
-                return Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter(_OuterCoroutineHandle);
+                return Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter(CompleteTask());
             }
             
             void return_value(Result Value)
@@ -149,6 +160,23 @@ namespace Elysium::Core::Template::Threading::Tasks
                 bool sdfsdf = false;
             }
         private:
+            Elysium::Core::Template::Coroutines::CoroutineHandle<> CompleteTask() noexcept
+            {
+                Elysium::Core::Template::Coroutines::CoroutineContinuationState Expected = Elysium::Core::Template::Coroutines::CoroutineContinuationState::Pending;
+
+                // No waiter has registered yet
+                if (_ContinuationState.CompareExchangeStrong(Expected, Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    return std::noop_coroutine();
+                }
+
+                // ...
+                _ContinuationState.Store(Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed, Elysium::Core::Template::Memory::MemoryOrder::Release);
+
+                return _OuterCoroutineHandle;
+            }
+        private:
             OVERLAPPED _Overlapped{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type> _Handle{};
 
@@ -159,7 +187,11 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             bool _ManagedExternally{};
             Elysium::Core::Template::Threading::ManualResetEvent _CoroutineCompletionEvent{};
+
+            Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Coroutines::CoroutineContinuationState> _ContinuationState{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<> _OuterCoroutineHandle{};    // continuation/who awaits this frame?
+        public:
+            Elysium::Core::Template::Text::String<char> _Name{};
         };
     public:
         using PromiseType = promise_type;
@@ -177,11 +209,25 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
+            if (!_Promise)
+            {
+                return;
+            }
+
+            if (_Promise->_ManagedExternally)
+            {
+                Wait();
+                return;
+            }
+
+            _Promise->_Handle.destroy();
+            /*
             if (_Promise->_ManagedExternally)
             {
                 Wait();
             }
             _Promise->_Handle.destroy();
+            */
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -238,15 +284,13 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             friend class Task;
             friend class Elysium::Core::Template::IO::Device::FileDevice;
-            //friend class Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter<promise_type, void>;
+
+            template <class Promise, class ReturnType, class ...Args>
+            friend class Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter;
+
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>;
 
             friend class UnitTests::Core::Template::Threading::Tasks::TaskTests;
-        public:
-            inline constexpr const bool GetIsManageExternally() const noexcept
-            {
-                return _ManagedExternally;
-            }
         public:
             Task get_return_object()
             {
@@ -268,7 +312,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                     _CoroutineCompletionEvent.Set();
                 }
 
-                return Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter(_OuterCoroutineHandle);
+                return Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter(CompleteTask());
             }
             
             void return_void()
@@ -294,6 +338,23 @@ namespace Elysium::Core::Template::Threading::Tasks
                 bool sdfsdf = false;
             }
         private:
+            Elysium::Core::Template::Coroutines::CoroutineHandle<> CompleteTask() noexcept
+            {
+                Elysium::Core::Template::Coroutines::CoroutineContinuationState Expected = Elysium::Core::Template::Coroutines::CoroutineContinuationState::Pending;
+
+                // No waiter has registered yet
+                if (_ContinuationState.CompareExchangeStrong(Expected, Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    return std::noop_coroutine();
+                }
+
+                // ...
+                _ContinuationState.Store(Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed, Elysium::Core::Template::Memory::MemoryOrder::Release);
+
+                return _OuterCoroutineHandle;
+            }
+        private:
             OVERLAPPED _Overlapped{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type> _Handle{};
 
@@ -303,7 +364,11 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             bool _ManagedExternally{};
             Elysium::Core::Template::Threading::ManualResetEvent _CoroutineCompletionEvent{};
+
+            Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Coroutines::CoroutineContinuationState> _ContinuationState{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<> _OuterCoroutineHandle{};    // continuation/who awaits this frame?
+        public:
+            Elysium::Core::Template::Text::String<char> _Name{};
         };
     public:
         using PromiseType = promise_type;
@@ -321,11 +386,25 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
+            if (!_Promise)
+            {
+                return;
+            }
+
+            if (_Promise->_ManagedExternally)
+            {
+                Wait();
+                return;
+            }
+
+            _Promise->_Handle.destroy();
+            /*
             if (_Promise->_ManagedExternally)
             {
                 Wait();
             }
             _Promise->_Handle.destroy();
+            */
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;

@@ -329,6 +329,7 @@ namespace Elysium::Core::Template::IO::Device
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
 			Promise._ManagedExternally = true;
+			Promise._Name = "WriteAsync";
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartWriteAsync>(*this), Promise, Buffer, Length);
 
@@ -357,6 +358,7 @@ namespace Elysium::Core::Template::IO::Device
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
 			Promise._ManagedExternally = true;
+			Promise._Name = "ReadAsync";
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartReadAsync>(*this), Promise, Buffer, Length);
 
@@ -420,6 +422,9 @@ namespace Elysium::Core::Template::IO::Device
 			}
 			else
 			{
+				_Position += SynchronousByteCount;
+				Promise._Result = SynchronousByteCount;
+				Promise._ErrorCode = ERROR_SUCCESS;
 				Promise._HasCompletedSynchronously = true;
 				if (0 == --_InFlightIos)
 				{
@@ -460,6 +465,9 @@ namespace Elysium::Core::Template::IO::Device
 			}
 			else
 			{
+				_Position += SynchronousByteCount;
+				Promise._Result = SynchronousByteCount;
+				Promise._ErrorCode = ERROR_SUCCESS;
 				Promise._HasCompletedSynchronously = true;
 				if (0 == --_InFlightIos)
 				{
@@ -493,11 +501,16 @@ namespace Elysium::Core::Template::IO::Device
 				Device->_AllIoOperationsCompleted.Set();
 			}
 
-			Promise->_Handle.resume();
-			const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
-			if (!SetResult)
+			// Promise is managed externally with IOCP always so this callback is responsible for cleaning up.
 			{
-				bool sdfsdf = false;
+				const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
+				if (!SetResult)
+				{
+					bool sdfsdf = false;
+				}
+
+				Promise->_Handle.resume();
+				Promise->_Handle.destroy();
 			}
 		}
 	private:

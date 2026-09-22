@@ -1452,6 +1452,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskFinalAwaiter.hpp">
       <Filter>Coroutines\Awaiter</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineContinuationState.hpp">
+      <Filter>Coroutines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
