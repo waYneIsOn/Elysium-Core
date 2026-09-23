@@ -1449,11 +1449,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskAwaiter.hpp">
       <Filter>Coroutines\Awaiter</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskFinalAwaiter.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\FinalAwaiter.hpp">
       <Filter>Coroutines\Awaiter</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineContinuationState.hpp">
       <Filter>Coroutines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Promises\_PromiseExample.hpp">
+      <Filter>Coroutines\Promises</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1675,6 +1678,9 @@
     </Filter>
     <Filter Include="Dispatch">
       <UniqueIdentifier>{ae47994c-1b78-464e-a724-b30ee4ddc995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coroutines\Promises">
+      <UniqueIdentifier>{39c175b9-613c-42a1-ac87-190b0613329d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,8 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/SuspendAlways.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/SuspendNever.hpp"
 
-
 #include <coroutine>
+#include <future>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -52,5 +52,16 @@ namespace UnitTests::Core::Template::Coroutines
 		{
             AsyncTestClass Result = AsyncTestClass::DoSomething();
 		}
+        /*
+        TEST_METHOD(sdfsdf)
+        {
+
+        }
+    private:
+        inline std::future<int> A()
+        {
+            co_return 1;
+        }
+        */
 	};
 }

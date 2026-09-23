@@ -44,10 +44,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\DelayFor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendNever.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskAwaiter.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskFinalAwaiter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\FinalAwaiter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineContinuationState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Promises\_PromiseExample.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\Process.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Connection.hpp" />

@@ -484,11 +484,13 @@ namespace Elysium::Core::Template::IO::Device
 	private:
 		inline static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 		{
+			using PromiseType = Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType;
+
 			// ...
 			Elysium::Core::Template::IO::Device::FileDevice* Device = static_cast<Elysium::Core::Template::IO::Device::FileDevice*>(Context);
 			
 			OVERLAPPED* ActualOverlapped = static_cast<OVERLAPPED*>(Overlapped);
-			auto* Promise = CONTAINING_RECORD(ActualOverlapped, Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType, _Overlapped);
+			PromiseType* Promise = CONTAINING_RECORD(ActualOverlapped, PromiseType, _Overlapped);
 
 			Device->_IocpIsClosingMutex.Lock();
 			Device->_Position += NumberOfBytesTransferred;
@@ -503,14 +505,18 @@ namespace Elysium::Core::Template::IO::Device
 
 			// Promise is managed externally with IOCP always so this callback is responsible for cleaning up.
 			{
+				OutputDebugStringA("FileDevice::IOCompletionPortCallback cleaning up Promise\r\n");
+
 				const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
 				if (!SetResult)
 				{
 					bool sdfsdf = false;
 				}
 
-				Promise->_Handle.resume();
-				Promise->_Handle.destroy();
+				Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
+					Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
+				CoroutineFrameHandle.resume();
+				CoroutineFrameHandle.destroy();
 			}
 		}
 	private:

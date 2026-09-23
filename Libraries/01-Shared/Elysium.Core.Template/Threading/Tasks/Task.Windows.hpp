@@ -29,6 +29,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Coroutines/Awaiter/DelegateAwaiter.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_FINALAWAITER
+#include "../../Coroutines/Awaiter/FinalAwaiter.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_SUSPENDALWAYS
 #include "../../Coroutines/Awaiter/SuspendAlways.hpp"
 #endif
@@ -39,10 +43,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_TASKAWAITER
 #include "../../Coroutines/Awaiter/TaskAwaiter.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_TASKFINALAWAITER
-#include "../../Coroutines/Awaiter/TaskFinalAwaiter.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_IOEXCEPTION
@@ -111,8 +111,8 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             Task<Result> get_return_object()
             {
-                _Handle = Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(*this);
-                return Task<Result>(_Handle);
+                OutputDebugStringA("promise_type<Result>::get_return_object() creating Task<Result>\r\n");
+                return Task<Result>(*this);
             }
 
             Elysium::Core::Template::Coroutines::Awaiter::SuspendNever initial_suspend()
@@ -120,8 +120,10 @@ namespace Elysium::Core::Template::Threading::Tasks
                 return {};
             }
 
-            Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter final_suspend() noexcept
+            Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
+                OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
+
                 _Status = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
 
                 if (!_ManagedExternally)
@@ -129,7 +131,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                     _CoroutineCompletionEvent.Set();
                 }
 
-                return Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter(CompleteTask());
+                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(CompleteTask());
             }
             
             void return_value(Result Value)
@@ -178,7 +180,6 @@ namespace Elysium::Core::Template::Threading::Tasks
             }
         private:
             OVERLAPPED _Overlapped{};
-            Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type> _Handle{};
 
             Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Threading::Tasks::TaskStatus> _Status{};
             Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
@@ -195,12 +196,12 @@ namespace Elysium::Core::Template::Threading::Tasks
         };
     public:
         using PromiseType = promise_type;
-        using CoroutineFrame = Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>;
+        using CoroutineHandleType = Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>;
     public:
         constexpr Task() noexcept = delete;
     private:
-        inline explicit constexpr Task(CoroutineFrame CoroutineFrameHandle) noexcept
-            : _CoroutineFrameHandle(CoroutineFrameHandle), _Promise(&_CoroutineFrameHandle.ToPromise())
+        inline explicit constexpr Task(PromiseType& Promise) noexcept
+            : _Promise(Promise), _CoroutineFrameHandle(Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(Promise))
         { }
     public:
         constexpr Task(const Task& Source) noexcept = delete;
@@ -209,25 +210,17 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            if (!_Promise)
+            OutputDebugStringA("Task<Result>::~Task\r\n");
+
+            if (_Promise._ManagedExternally)
             {
                 return;
             }
 
-            if (_Promise->_ManagedExternally)
+            if (_CoroutineFrameHandle)
             {
-                Wait();
-                return;
+                _CoroutineFrameHandle.destroy();
             }
-
-            _Promise->_Handle.destroy();
-            /*
-            if (_Promise->_ManagedExternally)
-            {
-                Wait();
-            }
-            _Promise->_Handle.destroy();
-            */
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -236,27 +229,28 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result> operator co_await() noexcept
         {
+            OutputDebugStringA("Task<Result>::operator co_await()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>(*this);
         }
     public:
         inline constexpr const bool GetIsCompleted() const noexcept
         {
-            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise->_Status;
+            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise._Status;
         }
 
         inline Elysium::Core::Template::System::uint16_t GetErrorCode() const noexcept
         {
-            return _Promise->_ErrorCode;
+            return _Promise._ErrorCode;
         }
 
         inline Result GetResult()
         {
-            return _CoroutineFrameHandle.ToPromise()._Result;
+            return _Promise._Result;
         }
     public:
         inline Task<Result>& Wait()
         {
-            const bool WaitResult = _Promise->_CoroutineCompletionEvent.WaitOne();
+            const bool WaitResult = _Promise._CoroutineCompletionEvent.WaitOne();
             if (!WaitResult)
             {
                 bool sdf = false;
@@ -265,8 +259,8 @@ namespace Elysium::Core::Template::Threading::Tasks
             return *this;
         }
     private:
-        CoroutineFrame _CoroutineFrameHandle{};
-        PromiseType* _Promise{};
+        PromiseType& _Promise;
+        CoroutineHandleType _CoroutineFrameHandle;
     };
     
     /// <summary>
@@ -292,10 +286,10 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             friend class UnitTests::Core::Template::Threading::Tasks::TaskTests;
         public:
-            Task get_return_object()
+            Task<void> get_return_object()
             {
-                _Handle = Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(*this);
-                return Task(_Handle);
+                OutputDebugStringA("promise_type<void>::get_return_object() creating Task<void>\r\n");
+                return Task<void>(*this);
             }
 
             Elysium::Core::Template::Coroutines::Awaiter::SuspendNever initial_suspend()
@@ -303,8 +297,10 @@ namespace Elysium::Core::Template::Threading::Tasks
                 return {};
             }
 
-            Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter final_suspend() noexcept
+            Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
+                OutputDebugStringA("Task<void>::final_suspend() creating FinalAwaiter\r\n");
+
                 _Status = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
 
                 if (!_ManagedExternally)
@@ -312,7 +308,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                     _CoroutineCompletionEvent.Set();
                 }
 
-                return Elysium::Core::Template::Coroutines::Awaiter::TaskFinalAwaiter(CompleteTask());
+                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(CompleteTask());
             }
             
             void return_void()
@@ -356,7 +352,6 @@ namespace Elysium::Core::Template::Threading::Tasks
             }
         private:
             OVERLAPPED _Overlapped{};
-            Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type> _Handle{};
 
             Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Threading::Tasks::TaskStatus> _Status{};
             Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
@@ -372,12 +367,12 @@ namespace Elysium::Core::Template::Threading::Tasks
         };
     public:
         using PromiseType = promise_type;
-        using CoroutineFrame = Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>;
+        using CoroutineHandleType = Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>;
     public:
         constexpr Task() noexcept = delete;
     private:
-        inline explicit constexpr Task(CoroutineFrame CoroutineFrameHandle) noexcept
-            : _CoroutineFrameHandle(CoroutineFrameHandle), _Promise(&_CoroutineFrameHandle.ToPromise())
+        inline explicit constexpr Task(PromiseType& Promise) noexcept
+            : _Promise(Promise), _CoroutineFrameHandle(Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(Promise))
         { }
     public:
         constexpr Task(const Task& Source) noexcept = delete;
@@ -386,25 +381,17 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            if (!_Promise)
+            OutputDebugStringA("Task<void>::~Task\r\n");
+
+            if (_Promise._ManagedExternally)
             {
                 return;
             }
 
-            if (_Promise->_ManagedExternally)
+            if (_CoroutineFrameHandle)
             {
-                Wait();
-                return;
+                _CoroutineFrameHandle.destroy();
             }
-
-            _Promise->_Handle.destroy();
-            /*
-            if (_Promise->_ManagedExternally)
-            {
-                Wait();
-            }
-            _Promise->_Handle.destroy();
-            */
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -413,22 +400,23 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void> operator co_await() noexcept
         {
+            OutputDebugStringA("Task<void>::operator co_await()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>(*this);
         }
     public:
         inline constexpr const bool GetIsCompleted() const noexcept
         {
-            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise->_Status;
+            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise._Status;
         }
 
         inline Elysium::Core::Template::System::uint16_t GetErrorCode() const noexcept
         {
-            return _Promise->_ErrorCode;
+            return _Promise._ErrorCode;
         }
     public:
         inline Task& Wait()
         {
-            const bool WaitResult = _Promise->_CoroutineCompletionEvent.WaitOne();
+            const bool WaitResult = _Promise._CoroutineCompletionEvent.WaitOne();
             if (!WaitResult)
             {
                 bool sdf = false;
@@ -437,8 +425,8 @@ namespace Elysium::Core::Template::Threading::Tasks
             return *this;
         }
     private:
-        CoroutineFrame _CoroutineFrameHandle{};
-        PromiseType* _Promise{};
+        PromiseType& _Promise;
+        CoroutineHandleType _CoroutineFrameHandle;
     };
 }
 #endif

@@ -64,6 +64,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 		/// <returns></returns>
 		inline constexpr bool await_ready() const noexcept
 		{
+			OutputDebugStringA("DelegateAwaiter::await_ready()\r\n");
 			return _HasCalledDelegate;
 		}
 
@@ -74,6 +75,10 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 		inline constexpr bool await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<Promise> Handle) noexcept
 		{
 			_Promise = &Handle.ToPromise();
+			bool ManagedInternally = !_Promise->_ManagedExternally;
+
+			OutputDebugStringA(ManagedInternally ? "DelegateAwaiter::await_suspend(...) -> managed INTERNALLY: RESUME right away\r\n" :
+				"DelegateAwaiter::await_suspend(...) -> managed EXTERNALLY: SUSPEND\r\n");
 
 			if constexpr (Elysium::Core::Template::TypeTraits::IsSameValue<void, ReturnType>)
 			{
@@ -98,7 +103,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			*/
 			
 			// coroutine can resume right away (if managed internally) or needs to remain suspended (if managed externally).
-			return _Promise->_ManagedExternally;
+			return !ManagedInternally;
 		}
 
 		/// <summary>
