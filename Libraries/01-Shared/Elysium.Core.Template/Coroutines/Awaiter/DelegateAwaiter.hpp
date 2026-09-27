@@ -74,8 +74,8 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 		/// <param name=""></param>
 		inline constexpr bool await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<Promise> Handle) noexcept
 		{
-			_Promise = &Handle.ToPromise();
-			bool ManagedInternally = !_Promise->_ManagedExternally;
+			Promise& Promise = Handle.ToPromise();
+			bool ManagedInternally = !Promise._ManagedExternally;
 
 			OutputDebugStringA(ManagedInternally ? "DelegateAwaiter::await_suspend(...) -> managed INTERNALLY: RESUME right away\r\n" :
 				"DelegateAwaiter::await_suspend(...) -> managed EXTERNALLY: SUSPEND\r\n");
@@ -116,7 +116,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			if constexpr (!Elysium::Core::Template::TypeTraits::IsSameValue<void, ReturnType>)
 			{
 				// @ToDo
-				//return _Promise->_Result;
+				//return _Promise._Result;
 				return 0;
 			}
 		}
@@ -125,8 +125,6 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 		Elysium::Core::Template::Container::Tuple<Args...> _Arguments;
 
 		bool _HasCalledDelegate{};
-
-		Promise* _Promise{};
 	};
 }
 #endif

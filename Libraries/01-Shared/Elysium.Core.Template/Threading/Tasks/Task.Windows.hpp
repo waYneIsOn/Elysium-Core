@@ -124,7 +124,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             {
                 OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
 
-                _Status = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
+                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion, Elysium::Core::Template::Memory::MemoryOrder::Release);
 
                 if (!_ManagedExternally)
                 {
@@ -210,10 +210,23 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            OutputDebugStringA("Task<Result>::~Task\r\n");
+            OutputDebugStringA("Task<void>::~DTOR\r\n");
+            OutputDebugStringA(&_Promise._Name[0]);
+            OutputDebugStringA("\r\n");
 
+            // @ToDo: need to think about what to do if noone waited for Task here
+            // frame still needs to be destroyed etc.!!!
             if (_Promise._ManagedExternally)
             {
+                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
+
+                // No waiter has registered yet
+                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    OutputDebugStringA("need to cancel\r\n");
+                }
+
                 return;
             }
 
@@ -229,7 +242,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result> operator co_await() noexcept
         {
-            OutputDebugStringA("Task<Result>::operator co_await()\r\n");
+            OutputDebugStringA("Task<Result>::operator co_await creating TaskAwaiter<Result>()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>(*this);
         }
     public:
@@ -301,7 +314,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             {
                 OutputDebugStringA("Task<void>::final_suspend() creating FinalAwaiter\r\n");
 
-                _Status = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
+                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion, Elysium::Core::Template::Memory::MemoryOrder::Release);
 
                 if (!_ManagedExternally)
                 {
@@ -381,10 +394,23 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            OutputDebugStringA("Task<void>::~Task\r\n");
+            OutputDebugStringA("Task<void>::~DTOR\r\n");
+            OutputDebugStringA(&_Promise._Name[0]);
+            OutputDebugStringA("\r\n");
 
+            // @ToDo: need to think about what to do if noone waited for Task here
+            // frame still needs to be destroyed etc.!!!
             if (_Promise._ManagedExternally)
             {
+                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
+
+                // No waiter has registered yet
+                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    OutputDebugStringA("need to cancel\r\n");
+                }
+
                 return;
             }
 
@@ -400,7 +426,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void> operator co_await() noexcept
         {
-            OutputDebugStringA("Task<void>::operator co_await()\r\n");
+            OutputDebugStringA("Task<void>::operator co_await creating TaskAwaiter<void>()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>(*this);
         }
     public:

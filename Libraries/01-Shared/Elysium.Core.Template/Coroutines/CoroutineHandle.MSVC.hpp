@@ -112,7 +112,7 @@ namespace Elysium::Core::Template::Coroutines
 	public:
 		inline static CoroutineHandle FromPromise(Promise& Value) noexcept 
 		{
-			void* AddressOfPromise = const_cast<void*>(static_cast<const volatile void*>(std::addressof(Value)));
+			void* AddressOfPromise = const_cast<void*>(static_cast<const volatile void*>(Elysium::Core::Template::System::Compiler::AddressOf(Value)));
 			void* AddressOfCoroutineFrame = __builtin_coro_promise(AddressOfPromise, 0, true);
 
 			CoroutineHandle _Result{};

@@ -329,6 +329,7 @@ namespace Elysium::Core::Template::IO::Device
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
 			Promise._ManagedExternally = true;
+			Promise._Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForActivation, Elysium::Core::Template::Memory::MemoryOrder::Release);
 			Promise._Name = "WriteAsync";
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartWriteAsync>(*this), Promise, Buffer, Length);
@@ -516,7 +517,7 @@ namespace Elysium::Core::Template::IO::Device
 				Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
 					Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
 				CoroutineFrameHandle.resume();
-				CoroutineFrameHandle.destroy();
+				//CoroutineFrameHandle.destroy();
 			}
 		}
 	private:

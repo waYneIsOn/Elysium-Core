@@ -54,7 +54,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 	public:
 		inline constexpr bool await_ready() const noexcept
 		{
-			bool Result = Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed ==
+			const bool Result = Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed ==
 				_Task._Promise._ContinuationState.Load(Elysium::Core::Template::Memory::MemoryOrder::Acquire);
 
 			OutputDebugStringA(Result ? "TaskAwaiter<TaskResult>::await_ready() -> TRUE\r\n" : "TaskAwaiter<TaskResult>::await_ready() -> FALSE\r\n");

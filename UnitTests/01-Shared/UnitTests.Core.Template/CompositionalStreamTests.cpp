@@ -136,7 +136,46 @@ namespace UnitTests::Core::Template::IO
 			}
 		}
 
-		TEST_METHOD(FileDeviceIOCPTests)
+		TEST_METHOD(FileDeviceIOCPSingularCoroutineTests)
+		{
+			const Elysium::Core::Template::System::uint32_t MainThreadId = Elysium::Core::Template::Threading::Thread::RetrieveCurrentThreadId();
+			Logger::WriteMessage("MainThread-Id: ");
+			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(MainThreadId)[0]);
+			Logger::WriteMessage("\r\n");
+
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 4;
+			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1000;
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 10000;
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100000;
+
+			// test with a singular coroutine frame
+			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
+			{
+				FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None, 4096, FileOptions::Asynchronous);
+				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write, FileShare::None, 4096, FileOptions::Asynchronous);
+
+				while (true)
+				{
+					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = SourceDevice.ReadAsync(_Buffer, _BufferLength);
+					ReadTask.Wait();
+					const Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
+					if (0 == BytesRead)
+					{
+						break;
+					}
+
+					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = TargetDevice.WriteAsync(_Buffer, BytesRead);
+					WriteTask.Wait();
+				}
+
+				const Elysium::Core::Template::System::size SourceLength = SourceDevice.GetLength();
+				const Elysium::Core::Template::System::size TargetLength = TargetDevice.GetLength();
+				Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
+			}
+		}
+		TEST_METHOD(FileDeviceIOCPChainedCoroutinesTests)
 		{
 			const Elysium::Core::Template::System::uint32_t MainThreadId = Elysium::Core::Template::Threading::Thread::RetrieveCurrentThreadId();
 			Logger::WriteMessage("MainThread-Id: ");
@@ -150,53 +189,21 @@ namespace UnitTests::Core::Template::IO
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 10000;
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100000;
 
-
-			// test with a singular coroutine frame
-			for(Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
-			{
-				FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None, 4096, FileOptions::Asynchronous);
-				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write, FileShare::None, 4096, FileOptions::Asynchronous);
-				
-				while(true)
-				{
-					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = SourceDevice.ReadAsync(_Buffer, _BufferLength);
-					ReadTask.Wait();
-					const Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
-					if (0 == BytesRead)
-					{
-						break;
-					}
-					
-					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = TargetDevice.WriteAsync(_Buffer, BytesRead);
-					WriteTask.Wait();
-				}
-
-				const Elysium::Core::Template::System::size SourceLength = SourceDevice.GetLength();
-				const Elysium::Core::Template::System::size TargetLength = TargetDevice.GetLength();
-				Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
-			}
-			/*
 			// test using "chained" coroutines
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
 			{
 				FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None, 4096, FileOptions::Asynchronous);
 				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write, FileShare::None, 4096, FileOptions::Asynchronous);
 
-				while (true)
-				{
-					//Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> CopyTask = CopyFileAsync(SourceDevice, TargetDevice);
-					Elysium::Core::Template::Threading::Tasks::Task<void> CopyTask = CopyFileAsync(SourceDevice, TargetDevice);
-
-					OutputDebugStringA("UnitTest: Starting to wait for Task<void> (CopyFileAsync)\r\n");
-					CopyTask.Wait();
-					//const Elysium::Core::Template::System::size BytesCopied = CopyTask.GetResult();
-				}
+				Elysium::Core::Template::Threading::Tasks::Task<void> CopyTask = CopyFileAsync(SourceDevice, TargetDevice);
+				OutputDebugStringA("UnitTest: Starting to wait for Task<void> (CopyFileAsync)\r\n");
+				CopyTask.Wait();
+				//const Elysium::Core::Template::System::size BytesCopied = CopyTask.GetResult();
 
 				const Elysium::Core::Template::System::size SourceLength = SourceDevice.GetLength();
 				const Elysium::Core::Template::System::size TargetLength = TargetDevice.GetLength();
 				Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
 			}
-			*/
 		}
 
 		TEST_METHOD(FileStreamIOCPTests)
