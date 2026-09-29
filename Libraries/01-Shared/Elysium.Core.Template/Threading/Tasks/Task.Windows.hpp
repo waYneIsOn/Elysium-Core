@@ -111,7 +111,7 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             Task<Result> get_return_object()
             {
-                OutputDebugStringA("promise_type<Result>::get_return_object() creating Task<Result>\r\n");
+                //OutputDebugStringA("promise_type<Result>::get_return_object() creating Task<Result>\r\n");
                 return Task<Result>(*this);
             }
 
@@ -122,7 +122,7 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
-                OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
+                //OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
 
                 _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion, Elysium::Core::Template::Memory::MemoryOrder::Release);
 
@@ -144,6 +144,8 @@ namespace Elysium::Core::Template::Threading::Tasks
             */
             void unhandled_exception()
             {
+                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Faulted, Elysium::Core::Template::Memory::MemoryOrder::Release);
+
                 std::exception_ptr Exception = std::current_exception();
 
                 try
@@ -155,6 +157,10 @@ namespace Elysium::Core::Template::Threading::Tasks
                     bool sdf = false;
                 }
                 catch (const Elysium::Core::Template::Exceptions::Exception& Ex)
+                {
+                    bool sdf = false;
+                }
+                catch (...)
                 {
                     bool sdf = false;
                 }
@@ -210,11 +216,12 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
+            /*
             OutputDebugStringA("Task<void>::~DTOR\r\n");
             OutputDebugStringA(&_Promise._Name[0]);
             OutputDebugStringA("\r\n");
-
-            // @ToDo: need to think about what to do if noone waited for Task here
+            */
+            // @ToDo: need to think about what to do if no one waited for Task here
             // frame still needs to be destroyed etc.!!!
             if (_Promise._ManagedExternally)
             {
@@ -224,7 +231,11 @@ namespace Elysium::Core::Template::Threading::Tasks
                 if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
                 {
-                    OutputDebugStringA("need to cancel\r\n");
+                    /*
+                    OutputDebugStringA("need to cancel:");
+                    OutputDebugStringA(&_Promise._Name[0]);
+                    OutputDebugStringA("\r\n");
+                    */
                 }
 
                 return;
@@ -242,7 +253,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result> operator co_await() noexcept
         {
-            OutputDebugStringA("Task<Result>::operator co_await creating TaskAwaiter<Result>()\r\n");
+            //OutputDebugStringA("Task<Result>::operator co_await creating TaskAwaiter<Result>()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>(*this);
         }
     public:
@@ -301,7 +312,7 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             Task<void> get_return_object()
             {
-                OutputDebugStringA("promise_type<void>::get_return_object() creating Task<void>\r\n");
+                //OutputDebugStringA("promise_type<void>::get_return_object() creating Task<void>\r\n");
                 return Task<void>(*this);
             }
 
@@ -312,7 +323,7 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
-                OutputDebugStringA("Task<void>::final_suspend() creating FinalAwaiter\r\n");
+                //OutputDebugStringA("Task<void>::final_suspend() creating FinalAwaiter\r\n");
 
                 _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion, Elysium::Core::Template::Memory::MemoryOrder::Release);
 
@@ -329,6 +340,8 @@ namespace Elysium::Core::Template::Threading::Tasks
            
             void unhandled_exception()
             {
+                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Faulted, Elysium::Core::Template::Memory::MemoryOrder::Release);
+
                 std::exception_ptr Exception = std::current_exception();
 
                 try
@@ -340,6 +353,10 @@ namespace Elysium::Core::Template::Threading::Tasks
                     bool sdf = false;
                 }
                 catch (const Elysium::Core::Template::Exceptions::Exception& Ex)
+                {
+                    bool sdf = false;
+                }
+                catch (...)
                 {
                     bool sdf = false;
                 }
@@ -394,11 +411,12 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
+            /*
             OutputDebugStringA("Task<void>::~DTOR\r\n");
             OutputDebugStringA(&_Promise._Name[0]);
             OutputDebugStringA("\r\n");
-
-            // @ToDo: need to think about what to do if noone waited for Task here
+            */
+            // @ToDo: need to think about what to do if no ne waited for Task here
             // frame still needs to be destroyed etc.!!!
             if (_Promise._ManagedExternally)
             {
@@ -408,7 +426,11 @@ namespace Elysium::Core::Template::Threading::Tasks
                 if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
                 {
-                    OutputDebugStringA("need to cancel\r\n");
+                    /*
+                    OutputDebugStringA("need to cancel:");
+                    OutputDebugStringA(&_Promise._Name[0]);
+                    OutputDebugStringA("\r\n");
+                    */
                 }
 
                 return;
@@ -426,7 +448,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void> operator co_await() noexcept
         {
-            OutputDebugStringA("Task<void>::operator co_await creating TaskAwaiter<void>()\r\n");
+            //OutputDebugStringA("Task<void>::operator co_await creating TaskAwaiter<void>()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>(*this);
         }
     public:

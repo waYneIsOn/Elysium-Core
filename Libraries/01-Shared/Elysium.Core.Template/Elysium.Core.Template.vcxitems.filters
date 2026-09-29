@@ -1458,6 +1458,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Promises\_PromiseExample.hpp">
       <Filter>Coroutines\Promises</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\TaskScheduler.hpp">
+      <Filter>Threading\Tasks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

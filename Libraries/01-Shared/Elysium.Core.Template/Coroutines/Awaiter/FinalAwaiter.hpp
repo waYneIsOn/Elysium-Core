@@ -39,12 +39,13 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 	public:
 		inline constexpr bool await_ready() const noexcept
 		{
-			OutputDebugStringA("TaskFinalAwaiter::await_ready()\r\n");
+			//OutputDebugStringA("TaskFinalAwaiter::await_ready()\r\n");
 			return false;
 		}
 
 		inline constexpr std::coroutine_handle<> await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<> CompletedHandle) noexcept
 		{
+			/*
 			if (_ContinuationHandle == std::noop_coroutine())
 			{
 				OutputDebugStringA("TaskFinalAwaiter::await_suspend(...) -> coroutine yields to NOOP_COROUTINE\r\n");
@@ -57,7 +58,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			{
 				OutputDebugStringA("TaskFinalAwaiter::await_suspend(...) -> coroutine yields to NOTHING\r\n");
 			}
-
+			*/
 			return _ContinuationHandle;
 		}
 

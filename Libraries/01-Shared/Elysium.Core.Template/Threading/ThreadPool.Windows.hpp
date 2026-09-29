@@ -49,6 +49,10 @@ namespace Elysium::Core::Template::Net::Sockets
 	class Socket;
 }
 
+namespace Elysium::Core::Template::Threading::Tasks
+{
+	class TaskScheduler;
+}
 
 
 // @ToDo: remove asap
@@ -80,6 +84,7 @@ namespace Elysium::Core::Template::Threading
 		friend class Elysium::Core::Template::IO::Device::FileDevice;
 		friend class Elysium::Core::Template::IO::FileSystem::FileSystemWatcher<>;
 		friend class Elysium::Core::Template::Net::Sockets::Socket;
+		friend class Elysium::Core::Template::Threading::Tasks::TaskScheduler;
 	private:
 		// @ToDo: remove asap
 		friend class Elysium::Core::IO::FileStream;
@@ -138,6 +143,7 @@ namespace Elysium::Core::Template::Threading
 			friend class Elysium::Core::Template::IO::Device::FileDevice;
 			friend class Elysium::Core::Template::IO::FileSystem::FileSystemWatcher<>;
 			friend class Elysium::Core::Template::Net::Sockets::Socket;
+			friend class Elysium::Core::Template::Threading::Tasks::TaskScheduler;
 		private:
 			// @ToDo: remove asap
 			friend class Elysium::Core::IO::FileStream;

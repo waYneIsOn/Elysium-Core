@@ -5,6 +5,7 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/DelegateAwaiter.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/GetCurrentPromiseAwaiter.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Exceptions/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/Thread.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/Tasks/Task.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Literals.hpp"
@@ -16,6 +17,20 @@ namespace UnitTests::Core::Template::Threading::Tasks
 {
     TEST_CLASS(TaskTests)
     {
+    public:
+        TEST_METHOD(ExceptionThrowingCoroutineTest)
+        {
+            Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::int32_t> ExceptionTask = ThrowException();
+            ExceptionTask.Wait();
+            Assert::AreEqual(0, ExceptionTask.GetResult());
+        }
+    private:
+        inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::int32_t> ThrowException()
+        {
+            throw Elysium::Core::Template::Exceptions::Exception(u8"ThrowException");
+
+            co_return 1;
+        }
     public:
         TEST_METHOD(ExternallyManagedDelegateSinglularTaskTest)
         {
@@ -93,7 +108,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
                         bool sdfsdf = false;
                     }
 
-                    OutputDebugStringA("Delegate managed EXTERNALLY -> resuming\r\n");
+                    //OutputDebugStringA("Delegate managed EXTERNALLY -> resuming\r\n");
                     Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle =
                         Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
                     CoroutineFrameHandle.resume();
@@ -107,7 +122,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
             }
             else
             {
-                OutputDebugStringA("Delegate -> managed INTERNALLY -> resuming\r\n");
+                //OutputDebugStringA("Delegate -> managed INTERNALLY -> resuming\r\n");
             }
         }
 
@@ -163,9 +178,9 @@ namespace UnitTests::Core::Template::Threading::Tasks
             for (Elysium::Core::Template::System::uint8_t i = 0; i < Iterations; ++i)
             {
                 Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task = PerformMostInternalTaskThroughDelegate(ManagedExternally);
-                OutputDebugStringA("PerformOuterLoopedTaskThroughDelegate(...) waiting on Task\r\n");
+                //OutputDebugStringA("PerformOuterLoopedTaskThroughDelegate(...) waiting on Task\r\n");
                 co_await Task;
-                OutputDebugStringA("PerformOuterLoopedTaskThroughDelegate(...) awaited Task\r\n");
+                //OutputDebugStringA("PerformOuterLoopedTaskThroughDelegate(...) awaited Task\r\n");
 
                 Result += Task.GetResult();
             }

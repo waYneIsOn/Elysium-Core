@@ -138,11 +138,12 @@ namespace UnitTests::Core::Template::IO
 
 		TEST_METHOD(FileDeviceIOCPSingularCoroutineTests)
 		{
+			/*
 			const Elysium::Core::Template::System::uint32_t MainThreadId = Elysium::Core::Template::Threading::Thread::RetrieveCurrentThreadId();
 			Logger::WriteMessage("MainThread-Id: ");
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(MainThreadId)[0]);
 			Logger::WriteMessage("\r\n");
-
+			*/
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 4;
 			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
@@ -177,11 +178,12 @@ namespace UnitTests::Core::Template::IO
 		}
 		TEST_METHOD(FileDeviceIOCPChainedCoroutinesTests)
 		{
+			/*
 			const Elysium::Core::Template::System::uint32_t MainThreadId = Elysium::Core::Template::Threading::Thread::RetrieveCurrentThreadId();
 			Logger::WriteMessage("MainThread-Id: ");
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(MainThreadId)[0]);
 			Logger::WriteMessage("\r\n");
-
+			*/
 			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 4;
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
@@ -196,7 +198,7 @@ namespace UnitTests::Core::Template::IO
 				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write, FileShare::None, 4096, FileOptions::Asynchronous);
 
 				Elysium::Core::Template::Threading::Tasks::Task<void> CopyTask = CopyFileAsync(SourceDevice, TargetDevice);
-				OutputDebugStringA("UnitTest: Starting to wait for Task<void> (CopyFileAsync)\r\n");
+				//OutputDebugStringA("UnitTest: Starting to wait for Task<void> (CopyFileAsync)\r\n");
 				CopyTask.Wait();
 				//const Elysium::Core::Template::System::size BytesCopied = CopyTask.GetResult();
 
@@ -298,11 +300,12 @@ namespace UnitTests::Core::Template::IO
 		//Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> CopyFileAsync(FileDevice& SourceDevice, FileDevice& TargetDevice)
 		Elysium::Core::Template::Threading::Tasks::Task<void> CopyFileAsync(FileDevice& SourceDevice, FileDevice& TargetDevice)
 		{
+			/*
 			const Elysium::Core::Template::System::uint32_t MainThreadId = Elysium::Core::Template::Threading::Thread::RetrieveCurrentThreadId();
 			Logger::WriteMessage("CopyFileAsync-Id: ");
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(MainThreadId)[0]);
 			Logger::WriteMessage("\r\n");
-
+			*/
 			//using AsyncPromiseType = Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType;
 			using AsyncPromiseType = Elysium::Core::Template::Threading::Tasks::Task<void>::PromiseType;
 			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
@@ -311,26 +314,26 @@ namespace UnitTests::Core::Template::IO
 			Elysium::Core::Template::System::size BytesCopied{};
 			while (true)
 			{
-				OutputDebugStringA(">>>>>>>> CopyFileAsync: starting ReadAsync <<<<<<<<\r\n");
+				//OutputDebugStringA(">>>>>>>> CopyFileAsync: starting ReadAsync <<<<<<<<\r\n");
 				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = SourceDevice.ReadAsync(_Buffer, _BufferLength);
-				OutputDebugStringA(">>>>>>>> CopyFileAsync: ReadAsync returned <<<<<<<<\r\n");
+				//OutputDebugStringA(">>>>>>>> CopyFileAsync: ReadAsync returned <<<<<<<<\r\n");
 				co_await ReadTask;
-				OutputDebugStringA(">>>>>>>> CopyFileAsync: ReadAsync awaited <<<<<<<<\r\n");
+				//OutputDebugStringA(">>>>>>>> CopyFileAsync: ReadAsync awaited <<<<<<<<\r\n");
 
 				const Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
 				if (0 == BytesRead)
 				{
-					OutputDebugStringA(">>>>>>>> CopyFileAsync: EOF <<<<<<<<\r\n");
+					//OutputDebugStringA(">>>>>>>> CopyFileAsync: EOF <<<<<<<<\r\n");
 					break;
 				}
 
-				OutputDebugStringA(">>>>>>>> CopyFileAsync: starting WriteAsync <<<<<<<<\r\n");
+				//OutputDebugStringA(">>>>>>>> CopyFileAsync: starting WriteAsync <<<<<<<<\r\n");
 				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = TargetDevice.WriteAsync(_Buffer, BytesRead);
-				OutputDebugStringA(">>>>>>>> CopyFileAsync: WriteTask returned <<<<<<<<\r\n");
+				//OutputDebugStringA(">>>>>>>> CopyFileAsync: WriteTask returned <<<<<<<<\r\n");
 				co_await WriteTask;
-				OutputDebugStringA(">>>>>>>> CopyFileAsync: WriteTask awaited <<<<<<<<\r\n");
+				//OutputDebugStringA(">>>>>>>> CopyFileAsync: WriteTask awaited <<<<<<<<\r\n");
 
-				OutputDebugStringA(">>>>>>>> CopyFileAsync RESUMED AFTER WriteAsync <<<<<<<<\r\n");
+				//OutputDebugStringA(">>>>>>>> CopyFileAsync RESUMED AFTER WriteAsync <<<<<<<<\r\n");
 
 				BytesCopied += WriteTask.GetResult();
 			}

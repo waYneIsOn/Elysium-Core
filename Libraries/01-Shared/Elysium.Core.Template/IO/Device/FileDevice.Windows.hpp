@@ -506,7 +506,7 @@ namespace Elysium::Core::Template::IO::Device
 
 			// Promise is managed externally with IOCP always so this callback is responsible for cleaning up.
 			{
-				OutputDebugStringA("FileDevice::IOCompletionPortCallback cleaning up Promise\r\n");
+				//OutputDebugStringA("FileDevice::IOCompletionPortCallback cleaning up Promise\r\n");
 
 				const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
 				if (!SetResult)

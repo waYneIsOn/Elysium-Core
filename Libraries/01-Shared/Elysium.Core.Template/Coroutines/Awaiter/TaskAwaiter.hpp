@@ -57,7 +57,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			const bool Result = Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed ==
 				_Task._Promise._ContinuationState.Load(Elysium::Core::Template::Memory::MemoryOrder::Acquire);
 
-			OutputDebugStringA(Result ? "TaskAwaiter<TaskResult>::await_ready() -> TRUE\r\n" : "TaskAwaiter<TaskResult>::await_ready() -> FALSE\r\n");
+			//OutputDebugStringA(Result ? "TaskAwaiter<TaskResult>::await_ready() -> TRUE\r\n" : "TaskAwaiter<TaskResult>::await_ready() -> FALSE\r\n");
 			return Result;
 		}
 
@@ -70,12 +70,12 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			if (_Task._Promise._ContinuationState.CompareExchangeStrong(ExpectedTaskContinuationState, Elysium::Core::Template::Coroutines::CoroutineContinuationState::Waiting,
 				Elysium::Core::Template::Memory::MemoryOrder::Release, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
 			{	// Coroutine remains suspended
-				OutputDebugStringA("TaskAwaiter<TaskResult>::await_suspend(...) -> coroutine remains suspended\r\n");
+				//OutputDebugStringA("TaskAwaiter<TaskResult>::await_suspend(...) -> coroutine remains suspended\r\n");
 				return true;
 			}
 
 			// Completion won the race -> Coroutine can resume right away
-			OutputDebugStringA("TaskAwaiter<TaskResult>::await_suspend(...) -> coroutine resumes right away\r\n");
+			//OutputDebugStringA("TaskAwaiter<TaskResult>::await_suspend(...) -> coroutine resumes right away\r\n");
 			return false;
 
 			/*
