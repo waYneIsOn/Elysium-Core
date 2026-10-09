@@ -326,10 +326,10 @@ namespace Elysium::Core::Template::IO::Device
 			}
 
 			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
+			Promise._ManagedExternally = true;
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
-			Promise._ManagedExternally = true;
-			Promise._Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForActivation, Elysium::Core::Template::Memory::MemoryOrder::Release);
+			Promise._Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Running, Elysium::Core::Template::Memory::MemoryOrder::Release);
 			Promise._Name = "WriteAsync";
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartWriteAsync>(*this), Promise, Buffer, Length);
@@ -356,9 +356,10 @@ namespace Elysium::Core::Template::IO::Device
 			}
 
 			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
+			Promise._ManagedExternally = true;
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
-			Promise._ManagedExternally = true;
+			Promise._Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Running, Elysium::Core::Template::Memory::MemoryOrder::Release);
 			Promise._Name = "ReadAsync";
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartReadAsync>(*this), Promise, Buffer, Length);
@@ -427,6 +428,7 @@ namespace Elysium::Core::Template::IO::Device
 				Promise._Result = SynchronousByteCount;
 				Promise._ErrorCode = ERROR_SUCCESS;
 				Promise._HasCompletedSynchronously = true;
+				//Promise._ManagedExternally = false;
 				if (0 == --_InFlightIos)
 				{
 					_AllIoOperationsCompleted.Set();
@@ -470,6 +472,7 @@ namespace Elysium::Core::Template::IO::Device
 				Promise._Result = SynchronousByteCount;
 				Promise._ErrorCode = ERROR_SUCCESS;
 				Promise._HasCompletedSynchronously = true;
+				//Promise._ManagedExternally = false;
 				if (0 == --_InFlightIos)
 				{
 					_AllIoOperationsCompleted.Set();
@@ -508,16 +511,16 @@ namespace Elysium::Core::Template::IO::Device
 			{
 				//OutputDebugStringA("FileDevice::IOCompletionPortCallback cleaning up Promise\r\n");
 
+				Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
+					Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
+				//OutputDebugStringA("FileDevice::IOCompletionPortCallback resuming coroutine frame\r\n");
+				CoroutineFrameHandle.resume();
+
 				const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
 				if (!SetResult)
 				{
 					bool sdfsdf = false;
 				}
-
-				Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
-					Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
-				CoroutineFrameHandle.resume();
-				//CoroutineFrameHandle.destroy();
 			}
 		}
 	private:

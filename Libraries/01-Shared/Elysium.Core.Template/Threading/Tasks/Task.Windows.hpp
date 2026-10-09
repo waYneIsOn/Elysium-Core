@@ -123,8 +123,16 @@ namespace Elysium::Core::Template::Threading::Tasks
             Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
                 //OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
-
-                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion, Elysium::Core::Template::Memory::MemoryOrder::Release);
+                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::Running;
+                if (_Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    bool sdfsd = false;
+                }
+                else
+                {
+                    bool sdfsd = false;
+                }
 
                 if (!_ManagedExternally)
                 {
@@ -171,15 +179,15 @@ namespace Elysium::Core::Template::Threading::Tasks
             Elysium::Core::Template::Coroutines::CoroutineHandle<> CompleteTask() noexcept
             {
                 Elysium::Core::Template::Coroutines::CoroutineContinuationState Expected = Elysium::Core::Template::Coroutines::CoroutineContinuationState::Pending;
-
-                // No waiter has registered yet
                 if (_ContinuationState.CompareExchangeStrong(Expected, Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
-                {
+                {   // No waiter has registered yet -> ...
+
                     return std::noop_coroutine();
                 }
 
                 // ...
+                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForChildrenToComplete, Elysium::Core::Template::Memory::MemoryOrder::Release);
                 _ContinuationState.Store(Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed, Elysium::Core::Template::Memory::MemoryOrder::Release);
 
                 return _OuterCoroutineHandle;
@@ -216,35 +224,7 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            /*
-            OutputDebugStringA("Task<void>::~DTOR\r\n");
-            OutputDebugStringA(&_Promise._Name[0]);
-            OutputDebugStringA("\r\n");
-            */
-            // @ToDo: need to think about what to do if no one waited for Task here
-            // frame still needs to be destroyed etc.!!!
-            if (_Promise._ManagedExternally)
-            {
-                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
-
-                // No waiter has registered yet
-                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
-                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
-                {
-                    /*
-                    OutputDebugStringA("need to cancel:");
-                    OutputDebugStringA(&_Promise._Name[0]);
-                    OutputDebugStringA("\r\n");
-                    */
-                }
-
-                return;
-            }
-
-            if (_CoroutineFrameHandle)
-            {
-                _CoroutineFrameHandle.destroy();
-            }
+            _CoroutineFrameHandle.destroy();
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -259,7 +239,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         inline constexpr const bool GetIsCompleted() const noexcept
         {
-            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise._Status;
+            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise._Status.Load(Elysium::Core::Template::Memory::MemoryOrder::Release);
         }
 
         inline Elysium::Core::Template::System::uint16_t GetErrorCode() const noexcept
@@ -323,9 +303,17 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
-                //OutputDebugStringA("Task<void>::final_suspend() creating FinalAwaiter\r\n");
-
-                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion, Elysium::Core::Template::Memory::MemoryOrder::Release);
+                //OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
+                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::Running;
+                if (_Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    bool sdfsd = false;
+                }
+                else
+                {
+                    bool sdfsd = false;
+                }
 
                 if (!_ManagedExternally)
                 {
@@ -367,15 +355,15 @@ namespace Elysium::Core::Template::Threading::Tasks
             Elysium::Core::Template::Coroutines::CoroutineHandle<> CompleteTask() noexcept
             {
                 Elysium::Core::Template::Coroutines::CoroutineContinuationState Expected = Elysium::Core::Template::Coroutines::CoroutineContinuationState::Pending;
-
-                // No waiter has registered yet
                 if (_ContinuationState.CompareExchangeStrong(Expected, Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
-                {
+                {   // No waiter has registered yet -> ...
+
                     return std::noop_coroutine();
                 }
 
                 // ...
+                _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForChildrenToComplete, Elysium::Core::Template::Memory::MemoryOrder::Release);
                 _ContinuationState.Store(Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed, Elysium::Core::Template::Memory::MemoryOrder::Release);
 
                 return _OuterCoroutineHandle;
@@ -411,35 +399,7 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            /*
-            OutputDebugStringA("Task<void>::~DTOR\r\n");
-            OutputDebugStringA(&_Promise._Name[0]);
-            OutputDebugStringA("\r\n");
-            */
-            // @ToDo: need to think about what to do if no ne waited for Task here
-            // frame still needs to be destroyed etc.!!!
-            if (_Promise._ManagedExternally)
-            {
-                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
-
-                // No waiter has registered yet
-                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
-                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
-                {
-                    /*
-                    OutputDebugStringA("need to cancel:");
-                    OutputDebugStringA(&_Promise._Name[0]);
-                    OutputDebugStringA("\r\n");
-                    */
-                }
-
-                return;
-            }
-
-            if (_CoroutineFrameHandle)
-            {
-                _CoroutineFrameHandle.destroy();
-            }
+            _CoroutineFrameHandle.destroy();
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -454,7 +414,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         inline constexpr const bool GetIsCompleted() const noexcept
         {
-            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise._Status;
+            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise._Status.Load(Elysium::Core::Template::Memory::MemoryOrder::Release);
         }
 
         inline Elysium::Core::Template::System::uint16_t GetErrorCode() const noexcept

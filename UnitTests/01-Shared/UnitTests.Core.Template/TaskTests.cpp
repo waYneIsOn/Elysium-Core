@@ -18,6 +18,15 @@ namespace UnitTests::Core::Template::Threading::Tasks
     TEST_CLASS(TaskTests)
     {
     public:
+        TEST_METHOD(AwaitNothing)
+        {
+            //for (Elysium::Core::Template::System::size i = 0; i < 100000; ++i)
+            for (Elysium::Core::Template::System::size i = 0; i < 100; ++i)
+            {
+                Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task = PerformMostInternalTaskThroughDelegate(0 == i % 2);
+            }
+        }
+    public:
         TEST_METHOD(ExceptionThrowingCoroutineTest)
         {
             Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::int32_t> ExceptionTask = ThrowException();
@@ -97,22 +106,20 @@ namespace UnitTests::Core::Template::Threading::Tasks
             //Elysium::Core::Template::Threading::Thread::Sleep(5000);
 
             if (ManagedExternally)
-            {
+            {   // this simulates IOCP running asynchronously through a callback
                 Elysium::Core::Template::Container::Function Lambda = [](Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType* Promise)
                 {
                     //Elysium::Core::Template::Threading::Thread::Sleep(500);
+
+                    Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
+                        Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
+                    CoroutineFrameHandle.resume();
 
                     const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
                     if (!SetResult)
                     {
                         bool sdfsdf = false;
                     }
-
-                    //OutputDebugStringA("Delegate managed EXTERNALLY -> resuming\r\n");
-                    Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle =
-                        Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
-                    CoroutineFrameHandle.resume();
-                    //CoroutineFrameHandle.destroy();
                 };
 
                 Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType& InternalPromise = Promise;
@@ -121,7 +128,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
                 SetSignalThread.Start(Elysium::Core::Template::Functional::Move(Lambda), &InternalPromise);
             }
             else
-            {
+            {   // this simulates IOCP running synchronously and returning right away
                 //OutputDebugStringA("Delegate -> managed INTERNALLY -> resuming\r\n");
             }
         }

@@ -76,11 +76,6 @@ namespace Elysium::Core::Template::Threading
 
 		inline void UnlockExclusive() noexcept
 		{
-			// https://learn.microsoft.com/en-us/cpp/code-quality/c26110?view=msvc-170
-			// https://learn.microsoft.com/en-us/cpp/code-quality/annotating-locking-behavior?view=msvc-170
-			// https://learn.microsoft.com/en-us/cpp/code-quality/how-to-specify-additional-code-information-by-using-analysis-assume?view=msvc-170
-			_Analysis_assume_lock_held_(_Handle);
-
 			// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockexclusive
 			ReleaseSRWLockExclusive(&_Handle);
 		}
