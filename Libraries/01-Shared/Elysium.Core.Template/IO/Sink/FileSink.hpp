@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../System/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_TASKS_TASK
+#include "../../Threading/Tasks/Task.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO::Sink
 {
 	class FileSink
@@ -71,6 +75,24 @@ namespace Elysium::Core::Template::IO::Sink
 		inline void Flush(const bool FlushToDisk = true)
 		{
 			_Device.Flush(FlushToDisk);
+		}
+	public:
+		inline Elysium::Core::Template::Threading::Tasks::Task<void> WriteAsync(const Elysium::Core::Template::System::byte* Buffer,
+			const Elysium::Core::Template::System::size Count)
+		{
+
+			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = _Device.WriteAsync(Buffer, Count);
+			WriteTask.Wait();
+			co_return;
+
+			/*
+			co_await _Device.WriteAsync(Buffer, Count);
+			co_return;
+			/*
+			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = _Device.WriteAsync(Buffer, Count);
+			co_await WriteTask;
+			co_return;
+			*/
 		}
 	private:
 		DeviceType& _Device;

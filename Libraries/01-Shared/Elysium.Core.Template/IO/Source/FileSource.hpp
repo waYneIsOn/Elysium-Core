@@ -127,13 +127,37 @@ namespace Elysium::Core::Template::IO::Source
 			_ReadPosition += Length;
 		}
 	public:
-		/*
-		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadBlockAsync(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::IO::ReadResult> ReadBlockAsync(
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			co_return co_await _Device.ReadAsync(&_Buffer[0], _Buffer.GetCapacity());
-			//co_return _Device.ReadAsync(&_Buffer[0], _Buffer.GetCapacity()).Wait().GetResult();
+			if (_ReadPosition == _WritePosition)
+			{
+				_ReadPosition = 0;
+				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = _Device.ReadAsync(&_Buffer[_ReadPosition], _Buffer.GetCapacity());
+
+
+
+
+				ReadTask.Wait();	// this works
+				//co_await ReadTask;	// this does not!!!
+
+
+
+
+
+				_WritePosition = ReadTask.GetResult();
+
+				if (0 == _WritePosition)
+				{
+					co_return Elysium::Core::Template::IO::ReadResult::EndOfStream;
+				}
+			}
+
+			DataView.SetData(&_Buffer[_ReadPosition]);
+			DataView.SetLength(_WritePosition - _ReadPosition);
+
+			co_return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
-		*/
 	private:
 		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		Elysium::Core::Template::System::size _ReadPosition;
