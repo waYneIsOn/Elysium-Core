@@ -182,8 +182,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 if (_ContinuationState.CompareExchangeStrong(Expected, Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
                 {   // No waiter has registered yet -> ...
-
-                    return std::noop_coroutine();
+                    return static_cast<std::coroutine_handle<>>(Elysium::Core::Template::Coroutines::CoroutineHandle<Elysium::Core::Template::Coroutines::NoOperationCoroutinePromise>{});
                 }
 
                 // ...
@@ -224,6 +223,37 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
+            /*
+            OutputDebugStringA("Task<Result>::~DTOR\r\n");
+            OutputDebugStringA(&_Promise._Name[0]);
+            OutputDebugStringA("\r\n");
+            */
+            /*
+            if (_Promise._ManagedExternally)
+            {
+                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
+                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    OutputDebugStringA("Task<Result>::~DTOR: already finished -> deleting coroutine frame\r\n");
+                }
+                else
+                {
+                    switch (Expected)
+                    {
+                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::Running:
+                        OutputDebugStringA("Task<Result>::~DTOR: cancelling from TaskStatus::Running\r\n");
+                        break;
+                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForChildrenToComplete:
+                        OutputDebugStringA("Task<Result>::~DTOR: cancelling from TaskStatus::WaitingForChildrenToComplete\r\n");
+                        break;
+                    default:
+                        OutputDebugStringA("Task<Result>::~DTOR: future cancellation from????\r\n");
+                        break;
+                    }
+                }
+            }
+            */
             _CoroutineFrameHandle.destroy();
         }
     public:
@@ -358,8 +388,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 if (_ContinuationState.CompareExchangeStrong(Expected, Elysium::Core::Template::Coroutines::CoroutineContinuationState::Completed,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
                 {   // No waiter has registered yet -> ...
-
-                    return std::noop_coroutine();
+                    return static_cast<std::coroutine_handle<>>(Elysium::Core::Template::Coroutines::CoroutineHandle<Elysium::Core::Template::Coroutines::NoOperationCoroutinePromise>{});
                 }
 
                 // ...
@@ -399,6 +428,37 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
+            /*
+            OutputDebugStringA("Task<void>::~DTOR\r\n");
+            OutputDebugStringA(&_Promise._Name[0]);
+            OutputDebugStringA("\r\n");
+            */
+            /*
+            if (_Promise._ManagedExternally)
+            {
+                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
+                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
+                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
+                {
+                    OutputDebugStringA("Task<void>::~DTOR: already finished -> deleting coroutine frame\r\n");
+                }
+                else
+                {
+                    switch (Expected)
+                    {
+                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::Running:
+                        OutputDebugStringA("Task<void>::~DTOR: cancelling from TaskStatus::Running\r\n");
+                        break;
+                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForChildrenToComplete:
+                        OutputDebugStringA("Task<void>::~DTOR: cancelling from TaskStatus::WaitingForChildrenToComplete\r\n");
+                        break;
+                    default:
+                        OutputDebugStringA("Task<void>::~DTOR: future cancellation from????\r\n");
+                        break;
+                    }
+                }
+            }
+            */
             _CoroutineFrameHandle.destroy();
         }
     public:

@@ -47,6 +47,11 @@ namespace Elysium::Core::Template::Coroutines
 
 		constexpr CoroutineHandle& operator=(CoroutineHandle&& Right) noexcept = default;
 	public:
+		/// <summary>
+		/// ...
+		/// 
+		/// compiler facing ABI requires std::coroutine_handle<>!
+		/// </summary>
 		operator std::coroutine_handle<>() const noexcept
 		{
 			return std::coroutine_handle<>::from_address(_Handle);
@@ -105,6 +110,11 @@ namespace Elysium::Core::Template::Coroutines
 
 		constexpr CoroutineHandle& operator=(CoroutineHandle&& Right) noexcept = default;
 	public:
+		/// <summary>
+		/// ...
+		/// 
+		/// compiler facing ABI requires std::coroutine_handle<>!
+		/// </summary>
 		operator std::coroutine_handle<>() const noexcept
 		{
 			return std::coroutine_handle<>::from_address(_Handle);
@@ -157,6 +167,78 @@ namespace Elysium::Core::Template::Coroutines
 		}
 	private:
 		void* _Handle{};
+	};
+
+	struct NoOperationCoroutinePromise
+	{ };
+
+	template<>
+	class CoroutineHandle<NoOperationCoroutinePromise>
+	{
+	public:
+		constexpr CoroutineHandle() noexcept = default;
+
+		constexpr CoroutineHandle(const CoroutineHandle& Source) noexcept = default;
+
+		constexpr CoroutineHandle(CoroutineHandle&& Right) noexcept = default;
+
+		constexpr ~CoroutineHandle() noexcept = default;
+	public:
+		constexpr CoroutineHandle& operator=(const CoroutineHandle& Source) noexcept = default;
+
+		constexpr CoroutineHandle& operator=(CoroutineHandle&& Right) noexcept = default;
+	public:
+		/// <summary>
+		/// ...
+		/// 
+		/// compiler facing ABI requires std::coroutine_handle<>!
+		/// </summary>
+		operator std::coroutine_handle<>() const noexcept
+		{
+			return std::coroutine_handle<>::from_address(_Handle);
+		}
+	public:
+		inline static CoroutineHandle FromPromise(NoOperationCoroutinePromise& Value) noexcept
+		{
+			void* AddressOfPromise = const_cast<void*>(static_cast<const volatile void*>(Elysium::Core::Template::System::Compiler::AddressOf(Value)));
+			void* AddressOfCoroutineFrame = __builtin_coro_promise(AddressOfPromise, 0, true);
+
+			CoroutineHandle _Result{};
+			_Result._Handle = AddressOfCoroutineFrame;
+
+			return _Result;
+		}
+	public:
+		inline NoOperationCoroutinePromise& ToPromise() const noexcept
+		{
+			return *static_cast<NoOperationCoroutinePromise*>(__builtin_coro_promise(_Handle, 0, false));
+		}
+	public:
+		inline constexpr explicit operator bool() const noexcept
+		{
+			return true;
+		}
+	public:
+		inline void operator()() const
+		{ }
+	public:
+		inline constexpr const void* address() const noexcept
+		{
+			return _Handle;
+		}
+
+		inline bool done() const noexcept
+		{
+			return false;
+		}
+	public:
+		void resume() const
+		{ }
+
+		void destroy() const noexcept
+		{ }
+	private:
+		void* _Handle = __builtin_coro_noop();
 	};
 #endif
 }
