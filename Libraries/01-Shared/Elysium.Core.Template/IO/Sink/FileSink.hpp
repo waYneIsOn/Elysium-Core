@@ -80,19 +80,13 @@ namespace Elysium::Core::Template::IO::Sink
 		inline Elysium::Core::Template::Threading::Tasks::Task<void> WriteAsync(const Elysium::Core::Template::System::byte* Buffer,
 			const Elysium::Core::Template::System::size Count)
 		{
+			using AsyncPromiseType = Elysium::Core::Template::Threading::Tasks::Task<void>::PromiseType;
 
-			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = _Device.WriteAsync(Buffer, Count);
-			WriteTask.Wait();
-			co_return;
-
-			/*
+			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
+			Promise._Name = "FileSink::WriteAsync";
+			
 			co_await _Device.WriteAsync(Buffer, Count);
 			co_return;
-			/*
-			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = _Device.WriteAsync(Buffer, Count);
-			co_await WriteTask;
-			co_return;
-			*/
 		}
 	private:
 		DeviceType& _Device;

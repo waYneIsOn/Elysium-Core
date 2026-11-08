@@ -209,10 +209,10 @@ namespace UnitTests::Core::Template::IO
 			}
 		}
 		
-		TEST_METHOD(FileStreamIOCPTestsSingularCoroutineTest)
+		TEST_METHOD(FileStreamIOCPSingularCoroutineTest)
 		{
-			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
-			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
+			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
 
 			// test with a singular coroutine frame
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
@@ -227,7 +227,7 @@ namespace UnitTests::Core::Template::IO
 
 				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 				Elysium::Core::Template::System::size TotalBytesRead = 0;
-				while (Source.ReadBlockAsync(Span).Wait().GetResult() == Elysium::Core::Template::IO::ReadResult::HasData)
+				while (Elysium::Core::Template::IO::ReadResult::HasData == Source.ReadBlockAsync(Span).Wait().GetResult())
 				{
 					Source.AdvanceReadingBlock(Span.GetLength());
 					

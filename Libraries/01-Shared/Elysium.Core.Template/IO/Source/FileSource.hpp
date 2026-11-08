@@ -130,20 +130,16 @@ namespace Elysium::Core::Template::IO::Source
 		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::IO::ReadResult> ReadBlockAsync(
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
+			using AsyncPromiseType = Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::IO::ReadResult>::PromiseType;
+
+			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
+			Promise._Name = "FileSource::ReadBlockAsync";
+
 			if (_ReadPosition == _WritePosition)
 			{
 				_ReadPosition = 0;
 				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = _Device.ReadAsync(&_Buffer[_ReadPosition], _Buffer.GetCapacity());
-
-
-
-
-				ReadTask.Wait();	// this works
-				//co_await ReadTask;	// this does not!!!
-
-
-
-
+				co_await ReadTask;
 
 				_WritePosition = ReadTask.GetResult();
 
