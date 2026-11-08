@@ -134,7 +134,7 @@ namespace Elysium::Core::Template::IO::Source
 
 			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
 			Promise._Name = "FileSource::ReadBlockAsync";
-
+			
 			if (_ReadPosition == _WritePosition)
 			{
 				_ReadPosition = 0;

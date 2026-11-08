@@ -208,7 +208,30 @@ namespace UnitTests::Core::Template::IO
 				Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
 			}
 		}
-		
+
+		TEST_METHOD(FileStreamIOCPChainedCoroutinesTest)
+		{
+			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
+
+			// test using "chained" coroutines
+			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
+			{
+				FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None, 4096, FileOptions::Asynchronous);
+				FileSource Source(SourceDevice);
+
+				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write, FileShare::None, 4096, FileOptions::Asynchronous);
+				FileSink Sink(TargetDevice);
+
+				Elysium::Core::Template::Threading::Tasks::Task<void> CopyTask = CopyFileAsync(Source, Sink);
+				CopyTask.Wait();
+
+				const Elysium::Core::Template::System::size SourceLength = SourceDevice.GetLength();
+				const Elysium::Core::Template::System::size TargetLength = TargetDevice.GetLength();
+				Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
+			}
+		}
+
 		TEST_METHOD(FileStreamIOCPSingularCoroutineTest)
 		{
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
@@ -223,10 +246,25 @@ namespace UnitTests::Core::Template::IO
 				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write, FileShare::None, 4096, FileOptions::Asynchronous);
 				FileSink Sink(TargetDevice);
 
-
-
 				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 				Elysium::Core::Template::System::size TotalBytesRead = 0;
+
+
+
+				while (true)
+				{
+					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::IO::ReadResult> ReadTask = Source.ReadBlockAsync(Span);
+					ReadTask.Wait();
+					if (Elysium::Core::Template::IO::ReadResult::HasData != ReadTask.GetResult())
+					{
+						break;
+					}
+					Source.AdvanceReadingBlock(Span.GetLength());
+
+					Elysium::Core::Template::Threading::Tasks::Task<void> WriteTask = Sink.WriteAsync(Span.GetData(), Span.GetLength());
+					WriteTask.Wait();
+				}
+				/*
 				while (Elysium::Core::Template::IO::ReadResult::HasData == Source.ReadBlockAsync(Span).Wait().GetResult())
 				{
 					Source.AdvanceReadingBlock(Span.GetLength());
@@ -234,7 +272,7 @@ namespace UnitTests::Core::Template::IO
 					Elysium::Core::Template::Threading::Tasks::Task<void> WriteTask = Sink.WriteAsync(Span.GetData(), Span.GetLength());
 					WriteTask.Wait();
 				}
-
+				*/
 				const Elysium::Core::Template::System::size SourceLength = SourceDevice.GetLength();
 				const Elysium::Core::Template::System::size TargetLength = TargetDevice.GetLength();
 				Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
@@ -332,6 +370,30 @@ namespace UnitTests::Core::Template::IO
 				co_await WriteTask;
 
 				BytesCopied += WriteTask.GetResult();
+			}
+
+			co_return;
+		}
+
+		Elysium::Core::Template::Threading::Tasks::Task<void> CopyFileAsync(FileSource& Source, FileSink& Sink)
+		{
+			using AsyncPromiseType = Elysium::Core::Template::Threading::Tasks::Task<void>::PromiseType;
+			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
+			Promise._Name = "CopyFileAsync";
+
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
+			while (true)
+			{
+				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::IO::ReadResult> ReadTask = Source.ReadBlockAsync(Span);
+				co_await ReadTask;
+				if (Elysium::Core::Template::IO::ReadResult::HasData != ReadTask.GetResult())
+				{
+					break;
+				}
+				Source.AdvanceReadingBlock(Span.GetLength());
+
+				Elysium::Core::Template::Threading::Tasks::Task<void> WriteTask = Sink.WriteAsync(Span.GetData(), Span.GetLength());
+				co_await WriteTask;
 			}
 
 			co_return;
