@@ -330,7 +330,7 @@ namespace Elysium::Core::Template::IO::Device
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
 			Promise._Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Running, Elysium::Core::Template::Memory::MemoryOrder::Release);
-			Promise._Name = "WriteAsync";
+			Promise._Name = "FileDevice::WriteAsync";
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartWriteAsync>(*this), Promise, Buffer, Length);
 
@@ -360,7 +360,7 @@ namespace Elysium::Core::Template::IO::Device
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
 			Promise._Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Running, Elysium::Core::Template::Memory::MemoryOrder::Release);
-			Promise._Name = "ReadAsync";
+			Promise._Name = "FileDevice::ReadAsync";
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartReadAsync>(*this), Promise, Buffer, Length);
 
@@ -428,7 +428,7 @@ namespace Elysium::Core::Template::IO::Device
 				Promise._Result = SynchronousByteCount;
 				Promise._ErrorCode = ERROR_SUCCESS;
 				Promise._HasCompletedSynchronously = true;
-				//Promise._ManagedExternally = false;
+				Promise._ManagedExternally = false;
 				if (0 == --_InFlightIos)
 				{
 					_AllIoOperationsCompleted.Set();
@@ -472,16 +472,10 @@ namespace Elysium::Core::Template::IO::Device
 				Promise._Result = SynchronousByteCount;
 				Promise._ErrorCode = ERROR_SUCCESS;
 				Promise._HasCompletedSynchronously = true;
-				//Promise._ManagedExternally = false;
+				Promise._ManagedExternally = false;
 				if (0 == --_InFlightIos)
 				{
 					_AllIoOperationsCompleted.Set();
-				}
-
-				const bool SetResult = Promise._CoroutineCompletionEvent.Set();
-				if (!SetResult)
-				{
-					bool sdfsdf = false;
 				}
 			}
 		}
@@ -507,20 +501,13 @@ namespace Elysium::Core::Template::IO::Device
 				Device->_AllIoOperationsCompleted.Set();
 			}
 
-			// Promise is managed externally with IOCP always so this callback is responsible for cleaning up.
+			// Promise is managed externally with IOCP always so this callback is responsible for "cleaning up".
 			{
-				//OutputDebugStringA("FileDevice::IOCompletionPortCallback cleaning up Promise\r\n");
-
 				Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
 					Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
-				//OutputDebugStringA("FileDevice::IOCompletionPortCallback resuming coroutine frame\r\n");
 				CoroutineFrameHandle.resume();
-
-				const bool SetResult = Promise->_CoroutineCompletionEvent.Set();
-				if (!SetResult)
-				{
-					bool sdfsdf = false;
-				}
+				Promise->_CoroutineCompletionEvent.Set();
+				// do NOT touch coroutine frame or promise after this!!!!
 			}
 		}
 	private:

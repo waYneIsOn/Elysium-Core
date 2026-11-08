@@ -77,18 +77,6 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			// Completion won the race -> Coroutine can resume right away
 			//OutputDebugStringA("TaskAwaiter<TaskResult>::await_suspend(...) -> coroutine resumes right away\r\n");
 			return false;
-
-			/*
-			if (_Task.GetIsCompleted())
-			{	// coroutine can resume right away
-				return false;
-			}
-
-			// coroutine needs to remain suspended
-			return true;
-			
-			//return !await_ready();
-			*/
 		}
 		
 		inline constexpr TaskResult await_resume() const noexcept

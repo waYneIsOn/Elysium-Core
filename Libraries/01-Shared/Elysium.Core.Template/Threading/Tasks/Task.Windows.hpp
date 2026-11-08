@@ -65,6 +65,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Threading/ManualResetEvent.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_TASKS_TASKSCHEDULER
+#include "TaskScheduler.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_TASKS_TASKSTATUS
 #include "TaskStatus.hpp"
 #endif
@@ -95,6 +99,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         friend class Elysium::Core::Template::IO::Device::FileDevice;
         friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>;
+        friend class Elysium::Core::Template::Threading::Tasks::TaskScheduler;
     public:
         struct promise_type
         {
@@ -111,8 +116,7 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             Task<Result> get_return_object()
             {
-                //OutputDebugStringA("promise_type<Result>::get_return_object() creating Task<Result>\r\n");
-                return Task<Result>(*this);
+                return Task<Result>(TaskScheduler::GetCurrent(), *this);
             }
 
             Elysium::Core::Template::Coroutines::Awaiter::SuspendNever initial_suspend()
@@ -122,7 +126,6 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
-                //OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
                 Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::Running;
                 if (_Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
@@ -133,13 +136,19 @@ namespace Elysium::Core::Template::Threading::Tasks
                 {
                     bool sdfsd = false;
                 }
+                
+                Elysium::Core::Template::Coroutines::CoroutineHandle<> ContinuationHandle = CompleteTask();
 
+                // Any external manager is responsible for calling Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::resume().
+                // The problem signaling the event here in this case is that the awaiting thread resumes right after this line, resulting in a potential race-condition when
+                // Task<T>'s destructor deletes the coroutine frame's handle BEFORE the resumption-process has completed!
+                // Hence the simplest solution is for the external manager to specifically signal, once that process has in fact completed.
                 if (!_ManagedExternally)
                 {
                     _CoroutineCompletionEvent.Set();
                 }
-
-                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(CompleteTask());
+                
+                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(ContinuationHandle);
             }
             
             void return_value(Result Value)
@@ -153,9 +162,9 @@ namespace Elysium::Core::Template::Threading::Tasks
             void unhandled_exception()
             {
                 _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Faulted, Elysium::Core::Template::Memory::MemoryOrder::Release);
-
+                /*
                 std::exception_ptr Exception = std::current_exception();
-
+                
                 try
                 {
                     std::rethrow_exception(Exception);
@@ -174,6 +183,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 }
 
                 bool sdfsdf = false;
+                */
             }
         private:
             Elysium::Core::Template::Coroutines::CoroutineHandle<> CompleteTask() noexcept
@@ -213,9 +223,12 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         constexpr Task() noexcept = delete;
     private:
-        inline explicit constexpr Task(PromiseType& Promise) noexcept
-            : _Promise(Promise), _CoroutineFrameHandle(Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(Promise))
-        { }
+        inline explicit constexpr Task(TaskScheduler& Scheduler, PromiseType& Promise) noexcept
+            : _Scheduler(Scheduler), _Promise(Promise), _CoroutineFrameHandle(Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(Promise))
+        {
+            _Scheduler.QueueTask(*this);
+            //TaskScheduler::GetDefault().QueueTask(*this);
+        }
     public:
         constexpr Task(const Task& Source) noexcept = delete;
 
@@ -223,38 +236,7 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            /*
-            OutputDebugStringA("Task<Result>::~DTOR\r\n");
-            OutputDebugStringA(&_Promise._Name[0]);
-            OutputDebugStringA("\r\n");
-            */
-            /*
-            if (_Promise._ManagedExternally)
-            {
-                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
-                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
-                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
-                {
-                    OutputDebugStringA("Task<Result>::~DTOR: already finished -> deleting coroutine frame\r\n");
-                }
-                else
-                {
-                    switch (Expected)
-                    {
-                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::Running:
-                        OutputDebugStringA("Task<Result>::~DTOR: cancelling from TaskStatus::Running\r\n");
-                        break;
-                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForChildrenToComplete:
-                        OutputDebugStringA("Task<Result>::~DTOR: cancelling from TaskStatus::WaitingForChildrenToComplete\r\n");
-                        break;
-                    default:
-                        OutputDebugStringA("Task<Result>::~DTOR: future cancellation from????\r\n");
-                        break;
-                    }
-                }
-            }
-            */
-            _CoroutineFrameHandle.destroy();
+            _Scheduler.TryDequeue(*this);
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -263,7 +245,6 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result> operator co_await() noexcept
         {
-            //OutputDebugStringA("Task<Result>::operator co_await creating TaskAwaiter<Result>()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>(*this);
         }
     public:
@@ -293,6 +274,8 @@ namespace Elysium::Core::Template::Threading::Tasks
             return *this;
         }
     private:
+        TaskScheduler& _Scheduler;
+
         PromiseType& _Promise;
         CoroutineHandleType _CoroutineFrameHandle;
     };
@@ -306,6 +289,7 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         friend class Elysium::Core::Template::IO::Device::FileDevice;
         friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>;
+        friend class Elysium::Core::Template::Threading::Tasks::TaskScheduler;
     public:
         struct promise_type
         {
@@ -322,8 +306,7 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             Task<void> get_return_object()
             {
-                //OutputDebugStringA("promise_type<void>::get_return_object() creating Task<void>\r\n");
-                return Task<void>(*this);
+                return Task<void>(TaskScheduler::GetCurrent(), *this);
             }
 
             Elysium::Core::Template::Coroutines::Awaiter::SuspendNever initial_suspend()
@@ -333,7 +316,6 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
             {
-                //OutputDebugStringA("Task<Result>::final_suspend() creating FinalAwaiter\r\n");
                 Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::Running;
                 if (_Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion,
                     Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
@@ -345,12 +327,18 @@ namespace Elysium::Core::Template::Threading::Tasks
                     bool sdfsd = false;
                 }
 
+                Elysium::Core::Template::Coroutines::CoroutineHandle<> ContinuationHandle = CompleteTask();
+
+                // Any external manager is responsible for calling Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::resume().
+                // The problem signaling the event here in this case is that the awaiting thread resumes right after this line, resulting in a potential race-condition when
+                // Task<T>'s destructor deletes the coroutine frame's handle BEFORE the resumption-process has completed!
+                // Hence the simplest solution is for the external manager to specifically signal, once that process has in fact completed.
                 if (!_ManagedExternally)
                 {
                     _CoroutineCompletionEvent.Set();
                 }
-
-                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(CompleteTask());
+                
+                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(ContinuationHandle);
             }
             
             void return_void()
@@ -359,7 +347,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             void unhandled_exception()
             {
                 _Status.Store(Elysium::Core::Template::Threading::Tasks::TaskStatus::Faulted, Elysium::Core::Template::Memory::MemoryOrder::Release);
-
+                /*
                 std::exception_ptr Exception = std::current_exception();
 
                 try
@@ -380,6 +368,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 }
 
                 bool sdfsdf = false;
+                */
             }
         private:
             Elysium::Core::Template::Coroutines::CoroutineHandle<> CompleteTask() noexcept
@@ -418,9 +407,11 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         constexpr Task() noexcept = delete;
     private:
-        inline explicit constexpr Task(PromiseType& Promise) noexcept
-            : _Promise(Promise), _CoroutineFrameHandle(Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(Promise))
-        { }
+        inline explicit constexpr Task(TaskScheduler& Scheduler, PromiseType& Promise) noexcept
+            : _Scheduler(Scheduler), _Promise(Promise), _CoroutineFrameHandle(Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(Promise))
+        {
+            _Scheduler.QueueTask(*this);
+        }
     public:
         constexpr Task(const Task& Source) noexcept = delete;
 
@@ -428,38 +419,7 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            /*
-            OutputDebugStringA("Task<void>::~DTOR\r\n");
-            OutputDebugStringA(&_Promise._Name[0]);
-            OutputDebugStringA("\r\n");
-            */
-            /*
-            if (_Promise._ManagedExternally)
-            {
-                Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
-                if (_Promise._Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::Canceled,
-                    Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease, Elysium::Core::Template::Memory::MemoryOrder::Acquire))
-                {
-                    OutputDebugStringA("Task<void>::~DTOR: already finished -> deleting coroutine frame\r\n");
-                }
-                else
-                {
-                    switch (Expected)
-                    {
-                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::Running:
-                        OutputDebugStringA("Task<void>::~DTOR: cancelling from TaskStatus::Running\r\n");
-                        break;
-                    case Elysium::Core::Template::Threading::Tasks::TaskStatus::WaitingForChildrenToComplete:
-                        OutputDebugStringA("Task<void>::~DTOR: cancelling from TaskStatus::WaitingForChildrenToComplete\r\n");
-                        break;
-                    default:
-                        OutputDebugStringA("Task<void>::~DTOR: future cancellation from????\r\n");
-                        break;
-                    }
-                }
-            }
-            */
-            _CoroutineFrameHandle.destroy();
+            _Scheduler.TryDequeue(*this);
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -468,7 +428,6 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void> operator co_await() noexcept
         {
-            //OutputDebugStringA("Task<void>::operator co_await creating TaskAwaiter<void>()\r\n");
             return Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>(*this);
         }
     public:
@@ -493,6 +452,8 @@ namespace Elysium::Core::Template::Threading::Tasks
             return *this;
         }
     private:
+        TaskScheduler& _Scheduler;
+
         PromiseType& _Promise;
         CoroutineHandleType _CoroutineFrameHandle;
     };

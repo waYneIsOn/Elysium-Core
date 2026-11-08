@@ -39,28 +39,23 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 	public:
 		inline constexpr bool await_ready() const noexcept
 		{
-			//OutputDebugStringA("FinalAwaiter::await_ready()\r\n");
 			return false;
 		}
 
 		inline constexpr std::coroutine_handle<> await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<> CompletedHandle) noexcept
 		{
 			/*
-			static const std::type_info& NoOperationTypeId = 
-				typeid(Elysium::Core::Template::Coroutines::CoroutineHandle<Elysium::Core::Template::Coroutines::NoOperationCoroutinePromise>);
-			const std::type_info& ThisTypeId = typeid(_ContinuationHandle);
-
-			if (NoOperationTypeId.hash_code() == ThisTypeId.hash_code())
+			if (Elysium::Core::Template::Coroutines::CoroutineHandle<Elysium::Core::Template::Coroutines::NoOperationCoroutinePromise>::_DefaultHandle == _ContinuationHandle._Handle)
 			{
-				OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOOP_COROUTINE\r\n");
+				//OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOOP_COROUTINE\r\n");
 			}
 			else if (_ContinuationHandle)
 			{
-				OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to OUTER\r\n");
+				//OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to OUTER\r\n");
 			}
 			else
 			{
-				OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOTHING\r\n");
+				//OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOTHING\r\n");
 			}
 			*/
 			return _ContinuationHandle;

@@ -188,6 +188,8 @@ namespace Elysium::Core::Template::Coroutines
 
 		constexpr CoroutineHandle& operator=(CoroutineHandle&& Right) noexcept = default;
 	public:
+		inline static const void* _DefaultHandle = __builtin_coro_noop();
+	public:
 		/// <summary>
 		/// ...
 		/// 
