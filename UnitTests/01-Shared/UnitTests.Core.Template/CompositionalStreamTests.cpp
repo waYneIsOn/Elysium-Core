@@ -213,7 +213,6 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(FileSinkSourceIOCPSingularCoroutineTest)
 		{
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
-			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 2;
 			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
 
 			// test with a singular coroutine frame
@@ -243,7 +242,7 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(FileStreamIOCPChainedCoroutinesTest)
 		{
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
-			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
+			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 10000;
 			
 			// test using "chained" coroutines
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
@@ -268,7 +267,7 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(FileStreamIOCPSingularCoroutineTest)
 		{
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
-			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
+			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 10000;
 
 			// test with a singular coroutine frame
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
