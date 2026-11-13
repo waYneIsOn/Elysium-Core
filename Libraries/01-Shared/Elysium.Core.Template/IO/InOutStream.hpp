@@ -121,11 +121,7 @@ namespace Elysium::Core::Template::IO
 
 		constexpr InOutStream(InOutStream&& Right) noexcept = delete;
 
-		~InOutStream()
-		{
-			Flush();
-			Close();
-		}
+		constexpr ~InOutStream() = default;
 	public:
 		constexpr InOutStream& operator=(const InOutStream& Source) = delete;
 
@@ -180,6 +176,17 @@ namespace Elysium::Core::Template::IO
 			{
 				_Sink.Flush();
 			}
+		}
+	public:
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::IO::ReadResult> ReadBlockAsync(
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		{
+			co_return co_await _Source.ReadBlockAsync(DataView);
+		}
+
+		inline Elysium::Core::Template::Threading::Tasks::Task<void> WriteAsync(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
+		{
+			co_return co_await _Sink.WriteAsync(Buffer, Count);
 		}
 	private:
 		Sink& _Sink;

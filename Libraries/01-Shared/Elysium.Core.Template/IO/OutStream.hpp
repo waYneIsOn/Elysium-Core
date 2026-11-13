@@ -35,10 +35,7 @@ namespace Elysium::Core::Template::IO
 
 		constexpr OutStream(OutStream&& Right) noexcept = delete;
 
-		~OutStream()
-		{
-			Close();
-		}
+		constexpr ~OutStream() = default;
 	public:
 		constexpr OutStream& operator=(const OutStream& Source) = delete;
 

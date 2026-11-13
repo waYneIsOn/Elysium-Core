@@ -48,15 +48,15 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			/*
 			if (Elysium::Core::Template::Coroutines::CoroutineHandle<Elysium::Core::Template::Coroutines::NoOperationCoroutinePromise>::_DefaultHandle == _ContinuationHandle._Handle)
 			{
-				//OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOOP_COROUTINE\r\n");
+				OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOOP_COROUTINE\r\n");
 			}
 			else if (_ContinuationHandle)
 			{
-				//OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to OUTER\r\n");
+				OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to OUTER\r\n");
 			}
 			else
 			{
-				//OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOTHING\r\n");
+				OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOTHING\r\n");
 			}
 			*/
 			if (_Promise._OuterCoroutineHandle)

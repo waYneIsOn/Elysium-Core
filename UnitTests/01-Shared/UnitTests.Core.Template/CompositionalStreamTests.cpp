@@ -245,8 +245,6 @@ namespace UnitTests::Core::Template::IO
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
 			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
 			
-			Assert::Fail();
-
 			// test using "chained" coroutines
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)
 			{
@@ -270,10 +268,7 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(FileStreamIOCPSingularCoroutineTest)
 		{
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
-			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 2;
 			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
-
-			Assert::Fail();
 
 			// test with a singular coroutine frame
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfRuns; ++i)

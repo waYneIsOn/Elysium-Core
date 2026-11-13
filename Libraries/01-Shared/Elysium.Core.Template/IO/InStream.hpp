@@ -35,11 +35,7 @@ namespace Elysium::Core::Template::IO
 
 		constexpr InStream(InStream&& Right) noexcept = delete;
 
-		inline ~InStream()
-		{
-			Flush();
-			Close();
-		}
+		constexpr ~InStream() = default;
 	public:
 		constexpr InStream& operator=(const InStream& Source) = delete;
 
@@ -71,8 +67,7 @@ namespace Elysium::Core::Template::IO
 			}
 		}
 	public:
-		inline Elysium::Core::Template::Threading::Tasks::Task<void> WriteAsync(const Elysium::Core::Template::System::byte* Buffer,
-			const Elysium::Core::Template::System::size Count)
+		inline Elysium::Core::Template::Threading::Tasks::Task<void> WriteAsync(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
 			co_return co_await _Sink.WriteAsync(Buffer, Count);
 		}
