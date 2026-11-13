@@ -110,6 +110,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             template <class Promise, class ReturnType, class ...Args>
             friend class Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter;
 
+            friend class Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter<promise_type>;
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>;
 
             friend class UnitTests::Core::Template::Threading::Tasks::TaskTests;
@@ -124,7 +125,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 return {};
             }
 
-            Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
+            Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter<promise_type> final_suspend() noexcept
             {
                 Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::Running;
                 if (_Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion,
@@ -138,17 +139,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 }
                 
                 Elysium::Core::Template::Coroutines::CoroutineHandle<> ContinuationHandle = CompleteTask();
-
-                // Any external manager is responsible for calling Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::resume().
-                // The problem signaling the event here in this case is that the awaiting thread resumes right after this line, resulting in a potential race-condition when
-                // Task<T>'s destructor deletes the coroutine frame's handle BEFORE the resumption-process has completed!
-                // Hence the simplest solution is for the external manager to specifically signal, once that process has in fact completed.
-                if (!_ManagedExternally)
-                {
-                    _CoroutineCompletionEvent.Set();
-                }
-                
-                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(ContinuationHandle);
+                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter<promise_type>(*this, ContinuationHandle);
             }
             
             void return_value(Result Value)
@@ -300,6 +291,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             template <class Promise, class ReturnType, class ...Args>
             friend class Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter;
 
+            friend class Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter<promise_type>;
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>;
 
             friend class UnitTests::Core::Template::Threading::Tasks::TaskTests;
@@ -314,7 +306,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 return {};
             }
 
-            Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter final_suspend() noexcept
+            Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter<promise_type> final_suspend() noexcept
             {
                 Elysium::Core::Template::Threading::Tasks::TaskStatus Expected = Elysium::Core::Template::Threading::Tasks::TaskStatus::Running;
                 if (_Status.CompareExchangeStrong(Expected, Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion,
@@ -328,17 +320,7 @@ namespace Elysium::Core::Template::Threading::Tasks
                 }
 
                 Elysium::Core::Template::Coroutines::CoroutineHandle<> ContinuationHandle = CompleteTask();
-
-                // Any external manager is responsible for calling Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::resume().
-                // The problem signaling the event here in this case is that the awaiting thread resumes right after this line, resulting in a potential race-condition when
-                // Task<T>'s destructor deletes the coroutine frame's handle BEFORE the resumption-process has completed!
-                // Hence the simplest solution is for the external manager to specifically signal, once that process has in fact completed.
-                if (!_ManagedExternally)
-                {
-                    _CoroutineCompletionEvent.Set();
-                }
-                
-                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter(ContinuationHandle);
+                return Elysium::Core::Template::Coroutines::Awaiter::FinalAwaiter<promise_type>(*this, ContinuationHandle);
             }
             
             void return_void()

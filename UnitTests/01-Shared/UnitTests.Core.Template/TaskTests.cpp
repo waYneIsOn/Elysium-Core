@@ -120,7 +120,6 @@ namespace UnitTests::Core::Template::Threading::Tasks
                     Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
                         Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
                     CoroutineFrameHandle.resume();
-                    Promise->_CoroutineCompletionEvent.Set();
                     // do NOT touch coroutine frame or promise after resume!!!!
                 };
 
@@ -147,7 +146,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
             using DelegateAwaiterType = Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter<AsyncPromiseType, void, AsyncPromiseType&, const bool>;
             co_await DelegateAwaiterType(DelegateType::Bind<TaskTests, &TaskTests::Start>(*this), Promise, ManagedExternally);
 
-            Elysium::Core::Template::Threading::Thread::Sleep(500);
+            //Elysium::Core::Template::Threading::Thread::Sleep(500);
 
             co_return 1;
         }

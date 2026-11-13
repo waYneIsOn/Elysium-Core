@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_TASKS_TASK
+#include "../Threading/Tasks/Task.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO
 {
 	// @ToDo: concept for sinks!
@@ -65,6 +69,12 @@ namespace Elysium::Core::Template::IO
 			{
 				_Sink.Flush();
 			}
+		}
+	public:
+		inline Elysium::Core::Template::Threading::Tasks::Task<void> WriteAsync(const Elysium::Core::Template::System::byte* Buffer,
+			const Elysium::Core::Template::System::size Count)
+		{
+			co_return co_await _Sink.WriteAsync(Buffer, Count);
 		}
 	private:
 		Sink& _Sink;

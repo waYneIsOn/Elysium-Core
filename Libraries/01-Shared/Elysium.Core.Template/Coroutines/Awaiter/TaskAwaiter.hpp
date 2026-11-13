@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../CoroutineHandle.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMORYORDER
+#include "../../Memory/MemoryOrder.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
 #include "../../TypeTraits/IsSame.hpp"
 #endif

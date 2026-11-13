@@ -506,7 +506,6 @@ namespace Elysium::Core::Template::IO::Device
 				Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType> CoroutineFrameHandle = 
 					Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>::FromPromise(*Promise);
 				CoroutineFrameHandle.resume();
-				Promise->_CoroutineCompletionEvent.Set();
 				// do NOT touch coroutine frame or promise after this!!!!
 			}
 		}

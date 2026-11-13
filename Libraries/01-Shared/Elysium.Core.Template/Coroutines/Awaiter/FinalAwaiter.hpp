@@ -18,13 +18,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Coroutines::Awaiter
 {
+	template <class PromiseType>
 	class FinalAwaiter
 	{
 	public:
 		constexpr FinalAwaiter() noexcept = delete;
 		
-		inline constexpr FinalAwaiter(Elysium::Core::Template::Coroutines::CoroutineHandle<> ContinuationHandle) noexcept
-			: _ContinuationHandle(ContinuationHandle)
+		inline constexpr FinalAwaiter(PromiseType& Promise, Elysium::Core::Template::Coroutines::CoroutineHandle<> ContinuationHandle) noexcept
+			: _Promise(Promise), _ContinuationHandle(ContinuationHandle)
 		{ }
 		
 		constexpr FinalAwaiter(const FinalAwaiter& Source) noexcept = default;
@@ -58,12 +59,24 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 				//OutputDebugStringA("FinalAwaiter::await_suspend(...) -> coroutine yields to NOTHING\r\n");
 			}
 			*/
-			return _ContinuationHandle;
+			if (_Promise._OuterCoroutineHandle)
+			{
+				// parent owns us, ergo don't signal completion event
+				return _ContinuationHandle;
+
+				//return static_cast<std::coroutine_handle<>>(_Promise._OuterCoroutineHandle);
+			}
+
+			_Promise._CoroutineCompletionEvent.Set();
+
+			// Wait() path: just stay suspended
+			return Elysium::Core::Template::Coroutines::CoroutineHandle<Elysium::Core::Template::Coroutines::NoOperationCoroutinePromise>{};
 		}
 
 		inline constexpr void await_resume() const noexcept
 		{ }
 	private:
+		PromiseType& _Promise;
 		Elysium::Core::Template::Coroutines::CoroutineHandle<> _ContinuationHandle;
 	};
 }

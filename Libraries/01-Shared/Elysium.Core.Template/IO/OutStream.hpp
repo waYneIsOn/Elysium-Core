@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_TASKS_TASK
+#include "../Threading/Tasks/Task.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO
 {
 	// @ToDo: concept for sources!
@@ -61,6 +65,12 @@ namespace Elysium::Core::Template::IO
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
 		{
 			_Source.AdvanceReadingBlock(Length);
+		}
+	public:
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::IO::ReadResult> ReadBlockAsync(
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		{
+			co_return co_await _Source.ReadBlockAsync(DataView);
 		}
 	private:
 		Source& _Source;

@@ -87,10 +87,10 @@ namespace Elysium::Core::Template::Threading::Tasks
 			const char* TaskName = &Promise._Name[0];
 			void* AddressOfPromise = &Promise;
 			void* AddressOfHandle = &Task._CoroutineFrameHandle;
-			
+			/*
 			char IdBuffer[32]{};
 			snprintf(IdBuffer, sizeof(IdBuffer), "[task %" PRIu64 "]", Task._Id);
-
+			*-/
 			char AddressOfPromiseText[64]{};
 			snprintf(AddressOfPromiseText, sizeof(AddressOfPromiseText), "%p", AddressOfPromise);
 
@@ -101,12 +101,14 @@ namespace Elysium::Core::Template::Threading::Tasks
 			strcat_s(buffer, "dequeuing task (destroying coroutine frame handle) \"");
 			strcat_s(buffer, TaskName);
 			strcat_s(buffer, "\" (Id: ");
-			strcat_s(buffer, sizeof(buffer), IdBuffer);
+			//strcat_s(buffer, sizeof(buffer), IdBuffer);
 			strcat_s(buffer, ") with Promise ");
 			strcat_s(buffer, sizeof(buffer), AddressOfPromiseText);
 			strcat_s(buffer, " and CoroutineFrameHandle ");
 			strcat_s(buffer, sizeof(buffer), AddressOfHandleText);
 			strcat_s(buffer, "\r\n");
+
+			OutputDebugStringA(buffer);
 			*/
 			Task._CoroutineFrameHandle.destroy();
 
